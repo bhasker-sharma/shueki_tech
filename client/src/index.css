@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200 dark:border-slate-800;
+  }
+
+  html {
+    @apply overflow-x-hidden;
+  }
+
+  body {
+    @apply bg-white dark:bg-slate-950 text-gray-900 dark:text-slate-100 font-sans antialiased overflow-x-hidden transition-colors duration-300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-sm sm:text-base;
+  }
+
+  .btn-secondary {
+    @apply bg-accent hover:bg-accent-dark text-white font-semibold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg transition-all duration-300 text-sm sm:text-base;
+  }
+
+  .card {
+    @apply bg-gray-50 dark:bg-slate-900/50 backdrop-blur-sm border border-gray-200 dark:border-slate-800 rounded-xl p-4 sm:p-5 md:p-6 hover:border-primary/50 transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-primary/20;
+  }
+
+  .section-padding {
+    @apply py-12 sm:py-16 md:py-20 lg:py-24;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-light to-accent bg-clip-text text-transparent;
+  }
+
+  .hero-gradient {
+    @apply bg-gradient-to-br from-gray-100 via-primary/10 to-gray-100 dark:from-slate-900 dark:via-primary/20 dark:to-slate-900;
+  }
+
+  /* Theme-aware text classes */
+  .text-heading {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  .text-body {
+    @apply text-gray-600 dark:text-slate-400;
+  }
+
+  .text-muted {
+    @apply text-gray-500 dark:text-slate-500;
+  }
+
+  /* Theme-aware background classes */
+  .bg-surface {
+    @apply bg-white dark:bg-slate-950;
+  }
+
+  .bg-surface-alt {
+    @apply bg-gray-50 dark:bg-slate-900;
+  }
+
+  .bg-surface-raised {
+    @apply bg-white dark:bg-slate-800;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+
+  @keyframes gradient {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-slate-950;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-light;
+}
+
+/* Loading spinner */
+.spinner {
+  border: 3px solid rgba(30, 58, 138, 0.3);
+  border-top: 3px solid #1e3a8a;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

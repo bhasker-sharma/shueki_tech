@@ -1,0 +1,74 @@
+# .htaccess for React Router (Hostinger)
+# Upload this file to public_html after deployment
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Force HTTPS (uncomment after SSL is installed)
+  # RewriteCond %{HTTPS} off
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Handle React Router - redirect all requests to index.html
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # XSS Protection
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Prevent MIME sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Referrer Policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Disable directory browsing
+Options -Indexes
+
+# Compress files for faster loading
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Images
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+
+  # CSS and JavaScript
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/x-javascript "access plus 1 month"
+
+  # Fonts
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+
+  # HTML
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Error documents (optional - customize these)
+# ErrorDocument 404 /index.html
+# ErrorDocument 500 /index.html

@@ -1,0 +1,11 @@
+# robots.txt for Shueki Tech Website
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Disallow admin areas (if you add them later)
+Disallow: /api/
+Disallow: /admin/
