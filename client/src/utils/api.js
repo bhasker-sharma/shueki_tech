@@ -7,7 +7,7 @@ export const apiClient = {
   async post(endpoint, data) {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data),
     })
 
@@ -32,6 +32,7 @@ export const apiRequest = async (endpoint, options = {}) => {
 
   const headers = {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
     ...options.headers,
   }
 

@@ -1,19 +1,33 @@
-# .htaccess for React Router (Hostinger)
-# Upload this file to public_html after deployment
+# .htaccess for React SPA + Laravel API (Hostinger)
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Force HTTPS (uncomment after SSL is installed)
-  # RewriteCond %{HTTPS} off
-  # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  # Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Handle React Router - redirect all requests to index.html
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  # Pass Authorization header to Laravel (required for Sanctum)
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # Pass X-XSRF-Token header to Laravel
+  RewriteCond %{HTTP:x-xsrf-token} .
+  RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+  # Route /api/* and /sanctum/* to Laravel (index.php)
+  RewriteRule ^api(/.*)?$ index.php [L]
+  RewriteRule ^sanctum(/.*)?$ index.php [L]
+  RewriteRule ^up$ index.php [L]
+
+  # Serve real files and directories directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else → React SPA
+  RewriteRule ^ index.html [L]
 </IfModule>
 
 # Security Headers

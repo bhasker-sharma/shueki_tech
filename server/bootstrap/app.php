@@ -17,9 +17,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'api/*',
         ]);
-
-        // Configure stateful API for Sanctum
-        $middleware->statefulApi();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Return JSON for unauthenticated API requests

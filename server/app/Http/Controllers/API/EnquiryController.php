@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EnquiryConfirmation;
 use App\Mail\EnquiryReceived;
 use App\Models\Enquiry;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class EnquiryController extends Controller
@@ -37,22 +37,17 @@ class EnquiryController extends Controller
     }
 
     /**
-     * Send email notification after the HTTP response is sent to the user.
-     * This makes the form submission instant - user doesn't wait for email delivery.
+     * Dispatch both emails to the queue (non-blocking).
+     * Response returns instantly; emails are sent by the queue worker in the background.
      */
     private function sendAdminNotificationDeferred(Enquiry $enquiry): void
     {
-        $adminEmail = config('mail.admin_notification_email', env('ADMIN_EMAIL', 'admin@shuekitech.com'));
+        $adminEmail = config('mail.admin_notification_email', 'info@shuekitech.com');
 
-        app()->terminating(function () use ($enquiry, $adminEmail) {
-            try {
-                Mail::to($adminEmail)->send(new EnquiryReceived($enquiry));
-            } catch (\Exception $e) {
-                Log::error('Failed to send enquiry notification email: ' . $e->getMessage(), [
-                    'enquiry_id' => $enquiry->id,
-                    'admin_email' => $adminEmail,
-                ]);
-            }
-        });
+        // 1. Confirmation to the enquiry submitter
+        Mail::to($enquiry->email)->queue(new EnquiryConfirmation($enquiry));
+
+        // 2. Notification to admin inbox
+        Mail::to($adminEmail)->queue(new EnquiryReceived($enquiry));
     }
 }

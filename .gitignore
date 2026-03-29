@@ -13,6 +13,9 @@ client/*.local
 server/.env
 server/config.local.php
 
+# Deployment (contains real production credentials — never commit)
+deployment/laravel/.env.production
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

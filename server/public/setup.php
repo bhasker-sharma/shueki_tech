@@ -51,7 +51,11 @@ echo "👤 Creating admin user...\n";
 try {
     $adminEmail = config('app.super_admin_email');
     $adminName = env('ADMIN_NAME', 'Admin');
-    $adminPassword = env('ADMIN_PASSWORD', 'ShuekiTech@2025');
+    $adminPassword = env('ADMIN_PASSWORD');
+
+    if (!$adminPassword) {
+        die("❌ ADMIN_PASSWORD is not set in .env. Aborting.");
+    }
 
     // Check if admin exists
     $existingAdmin = App\Models\User::where('email', $adminEmail)->first();

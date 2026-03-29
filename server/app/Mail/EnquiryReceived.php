@@ -40,7 +40,7 @@ class EnquiryReceived extends Mailable
         $serviceLabel = $this->serviceLabels[$this->enquiry->service_type] ?? $this->enquiry->service_type;
 
         return new Envelope(
-            subject: "New Enquiry: {$serviceLabel} - {$this->enquiry->full_name}",
+            subject: "New Enquiry - {$serviceLabel}",
         );
     }
 
