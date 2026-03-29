@@ -32,7 +32,7 @@ const Admin = () => {
         setError(data.message || 'Invalid credentials')
       }
     } catch (err) {
-      setError('Login failed. Please check your connection and try again.')
+      setError(err.message || 'Login failed. Please check your connection and try again.')
       console.error('Login error:', err)
     } finally {
       setLoading(false)
