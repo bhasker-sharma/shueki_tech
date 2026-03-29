@@ -158,6 +158,7 @@ Key values to change per environment:
 | `DB_CONNECTION` | `sqlite` | `mysql` |
 | `SESSION_DOMAIN` | `localhost` | `shuekitech.com` |
 | `SANCTUM_STATEFUL_DOMAINS` | `localhost` | `shuekitech.com,www.shuekitech.com` |
+| `QUEUE_CONNECTION` | `sync` | `sync` (shared hosting has no queue worker — keep as sync or emails silently never send) |
 
 ### `client/.env` — React Environment Variables
 - Variables here are baked into the React build at compile time
@@ -319,9 +320,14 @@ Without this, Laravel cannot write logs or cache — leads to cryptic errors.
 
 **Step 7: Run migrations and create admin**
 ```bash
-php artisan migrate --force
-php artisan db:seed --class=AdminSeeder
-php artisan config:cache
+# 4. Generate app encryption key (writes into your .env automatically)
+php artisan key:generate
+# Run database migrations
+php artisan migrate --force  
+# Create admin user
+php artisan db:seed --class=AdminUserSeeder 
+# Cache everything for performance
+php artisan config:cache 
 php artisan route:cache
 ```
 

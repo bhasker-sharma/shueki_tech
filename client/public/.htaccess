@@ -3,6 +3,7 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+  DirectoryIndex index.html index.php
 
   # Force HTTPS
   RewriteCond %{HTTPS} off
