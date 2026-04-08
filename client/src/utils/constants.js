@@ -2,8 +2,8 @@ export const COMPANY_INFO = {
   name: 'Shueki Tech',
   tagline: 'Engineering Solutions That Drive Innovation',
   email: 'info@shuekitech.com',
-  phone: '+91-XXXX-XXXXXX',
-  address: 'Bangalore, Karnataka, India',
+  phone: '+91-84271-82071',
+  address: 'Opposite UCO Bank, Ground Floor, Hoshiarpur Road, Garhshankar, Punjab - 144527',
   timezone: 'IST (UTC+5:30)',
   stats: {
     projects: '50+',

@@ -51,7 +51,12 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-gray-900 dark:text-white font-semibold mb-1">Phone</h3>
-                    <p className="text-gray-600 dark:text-slate-400">{COMPANY_INFO.phone}</p>
+                    <a
+                      href={`tel:${COMPANY_INFO.phone.replace(/[^+\d]/g, '')}`}
+                      className="text-gray-600 dark:text-slate-400 hover:text-accent transition-colors"
+                    >
+                      {COMPANY_INFO.phone}
+                    </a>
                   </div>
                 </div>
 
