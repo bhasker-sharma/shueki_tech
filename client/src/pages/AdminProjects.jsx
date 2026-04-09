@@ -15,16 +15,16 @@ import {
 const CROP_ASPECT = 16 / 9
 
 const GRADIENT_OPTIONS = [
-  { value: 'from-blue-500 to-cyan-500',     label: 'Blue → Cyan' },
-  { value: 'from-purple-500 to-pink-500',   label: 'Purple → Pink' },
-  { value: 'from-orange-500 to-red-500',    label: 'Orange → Red' },
-  { value: 'from-green-500 to-teal-500',    label: 'Green → Teal' },
+  { value: 'from-blue-500 to-cyan-500', label: 'Blue → Cyan' },
+  { value: 'from-purple-500 to-pink-500', label: 'Purple → Pink' },
+  { value: 'from-orange-500 to-red-500', label: 'Orange → Red' },
+  { value: 'from-green-500 to-teal-500', label: 'Green → Teal' },
   { value: 'from-yellow-500 to-orange-500', label: 'Yellow → Orange' },
   { value: 'from-indigo-500 to-purple-500', label: 'Indigo → Purple' },
-  { value: 'from-rose-500 to-pink-500',     label: 'Rose → Pink' },
-  { value: 'from-sky-500 to-blue-600',      label: 'Sky → Blue' },
-  { value: 'from-emerald-500 to-cyan-500',  label: 'Emerald → Cyan' },
-  { value: 'from-lime-500 to-green-600',    label: 'Lime → Green' },
+  { value: 'from-rose-500 to-pink-500', label: 'Rose → Pink' },
+  { value: 'from-sky-500 to-blue-600', label: 'Sky → Blue' },
+  { value: 'from-emerald-500 to-cyan-500', label: 'Emerald → Cyan' },
+  { value: 'from-lime-500 to-green-600', label: 'Lime → Green' },
 ]
 
 const SERVICE_OPTIONS = Object.entries(SERVICE_TYPE_LABELS)
@@ -75,7 +75,7 @@ const CropModal = ({ file, queuePosition, queueTotal, onConfirm, onCancel }) => 
     const scaleY = image.naturalHeight / image.height
 
     const canvas = document.createElement('canvas')
-    canvas.width  = Math.round(completedCrop.width  * scaleX)
+    canvas.width = Math.round(completedCrop.width * scaleX)
     canvas.height = Math.round(completedCrop.height * scaleY)
 
     const ctx = canvas.getContext('2d')
@@ -91,7 +91,7 @@ const CropModal = ({ file, queuePosition, queueTotal, onConfirm, onCancel }) => 
     canvas.toBlob((blob) => {
       if (!blob) { setProcessing(false); return }
       const croppedFile = new File([blob], file.name, { type: 'image/jpeg' })
-      const previewUrl  = URL.createObjectURL(blob)
+      const previewUrl = URL.createObjectURL(blob)
       onConfirm(croppedFile, previewUrl)
       setProcessing(false)
     }, 'image/jpeg', 0.93)
@@ -188,36 +188,36 @@ const CropModal = ({ file, queuePosition, queueTotal, onConfirm, onCancel }) => 
 const ProjectForm = ({ project, onClose, onSave }) => {
   const [form, setForm] = useState(() =>
     project ? {
-      title:        project.title || '',
-      client:       project.client || '',
-      industry:     project.industry || '',
+      title: project.title || '',
+      client: project.client || '',
+      industry: project.industry || '',
       service_type: project.service_type || 'web-development',
-      problem:      project.problem || '',
-      result:       project.result || '',
-      tech:         Array.isArray(project.tech) ? project.tech.join(', ') : (project.tech || ''),
-      year:         project.year || new Date().getFullYear(),
-      featured:     project.featured || false,
-      status:       project.status || 'published',
-      gradient:     project.gradient || 'from-blue-500 to-cyan-500',
-      sort_order:   project.sort_order || 0,
-      link:         project.link || '',
+      problem: project.problem || '',
+      result: project.result || '',
+      tech: Array.isArray(project.tech) ? project.tech.join(', ') : (project.tech || ''),
+      year: project.year || new Date().getFullYear(),
+      featured: project.featured || false,
+      status: project.status || 'published',
+      gradient: project.gradient || 'from-blue-500 to-cyan-500',
+      sort_order: project.sort_order || 0,
+      link: project.link || '',
     } : { ...EMPTY_FORM }
   )
 
   // Existing DB image paths (relative, e.g. "projects/1/img.jpg")
   const [existingImages, setExistingImages] = useState(project?.images || [])
   // Cropped File objects ready to upload
-  const [newFiles, setNewFiles]       = useState([])
+  const [newFiles, setNewFiles] = useState([])
   // Blob preview URLs for newFiles
   const [newPreviews, setNewPreviews] = useState([])
   // Files waiting to be cropped
-  const [cropQueue, setCropQueue]     = useState([])
+  const [cropQueue, setCropQueue] = useState([])
 
-  const [saving, setSaving]   = useState(false)
-  const [error, setError]     = useState('')
-  const fileInputRef          = useRef(null)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+  const fileInputRef = useRef(null)
 
-  const totalImages   = existingImages.length + newFiles.length
+  const totalImages = existingImages.length + newFiles.length
   const activeCropFile = cropQueue[0] || null
 
   const handleFieldChange = (e) => {
@@ -227,8 +227,8 @@ const ProjectForm = ({ project, onClose, onSave }) => {
 
   // When user picks files, push them into the crop queue (up to remaining slots)
   const handleFilePick = (e) => {
-    const files   = Array.from(e.target.files)
-    const slots   = 5 - totalImages - cropQueue.length
+    const files = Array.from(e.target.files)
+    const slots = 5 - totalImages - cropQueue.length
     if (slots <= 0) return
     setCropQueue((q) => [...q, ...files.slice(0, slots)])
     e.target.value = ''
@@ -236,7 +236,7 @@ const ProjectForm = ({ project, onClose, onSave }) => {
 
   // Called when user finishes cropping one image
   const handleCropConfirm = (croppedFile, previewUrl) => {
-    setNewFiles((prev)    => [...prev, croppedFile])
+    setNewFiles((prev) => [...prev, croppedFile])
     setNewPreviews((prev) => [...prev, previewUrl])
     setCropQueue((q) => q.slice(1)) // advance queue
   }
@@ -248,7 +248,7 @@ const ProjectForm = ({ project, onClose, onSave }) => {
 
   const removeNew = (idx) => {
     URL.revokeObjectURL(newPreviews[idx])
-    setNewFiles((prev)    => prev.filter((_, i) => i !== idx))
+    setNewFiles((prev) => prev.filter((_, i) => i !== idx))
     setNewPreviews((prev) => prev.filter((_, i) => i !== idx))
   }
 
@@ -393,7 +393,7 @@ const ProjectForm = ({ project, onClose, onSave }) => {
               <input name="link" type="url" value={form.link} onChange={handleFieldChange}
                 placeholder="https://example.com"
                 className="input-field" />
-              <p className="text-xs text-slate-500 mt-1">If filled, a &quot;View Live Project&quot; button appears on the project page.</p>
+              <p className="text-xs text-slate-500 mt-1">If filled, a &quot;View Live &quot; button appears on the project page.</p>
             </div>
 
             {/* Gradient + Status + Sort */}
@@ -559,11 +559,10 @@ const ProjectCard = ({ project, onEdit, onDelete }) => {
               Featured
             </span>
           )}
-          <span className={`text-xs font-medium px-2 py-0.5 rounded ${
-            project.status === 'published'
+          <span className={`text-xs font-medium px-2 py-0.5 rounded ${project.status === 'published'
               ? 'bg-green-600 text-white'
               : 'bg-slate-600 text-slate-200'
-          }`}>
+            }`}>
             {project.status}
           </span>
         </div>
@@ -617,13 +616,13 @@ const ProjectCard = ({ project, onEdit, onDelete }) => {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 const AdminProjects = ({ openCreate = false }) => {
-  const [projects, setProjects]     = useState([])
-  const [loading, setLoading]       = useState(true)
-  const [showForm, setShowForm]     = useState(openCreate)
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [showForm, setShowForm] = useState(openCreate)
   const [editProject, setEditProject] = useState(null)
-  const [deleteId, setDeleteId]     = useState(null)
-  const [deleting, setDeleting]     = useState(false)
-  const [toast, setToast]           = useState(null)
+  const [deleteId, setDeleteId] = useState(null)
+  const [deleting, setDeleting] = useState(false)
+  const [toast, setToast] = useState(null)
 
   useEffect(() => {
     projectAPI.getAll()
@@ -665,11 +664,10 @@ const AdminProjects = ({ openCreate = false }) => {
     <AdminLayout>
       {/* Toast */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-[100] flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-sm font-medium ${
-          toast.type === 'success'
+        <div className={`fixed top-4 right-4 z-[100] flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-sm font-medium ${toast.type === 'success'
             ? 'bg-green-800 border border-green-600 text-green-100'
             : 'bg-red-900 border border-red-700 text-red-100'
-        }`}>
+          }`}>
           {toast.type === 'success' ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
           {toast.message}
         </div>

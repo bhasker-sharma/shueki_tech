@@ -192,7 +192,7 @@ const Home = () => {
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     viewport={{ once: true }}
                   >
-                  <Link to={`/projects/${project.id}`} className="card flex flex-col group hover:-translate-y-1 hover:shadow-xl transition-all duration-200 block">
+                  <Link to={`/projects/${project.id}`} className="card flex flex-col group hover:-translate-y-1 hover:shadow-xl transition-all duration-200 block h-full">
                     {/* Banner */}
                     <div className={`h-28 rounded-lg bg-gradient-to-br ${project.gradient || 'from-blue-500 to-cyan-500'} mb-4 flex items-center justify-center relative overflow-hidden`}>
                       {firstImage ? (
@@ -211,22 +211,22 @@ const Home = () => {
                       {SERVICE_TYPE_LABELS[project.service_type] || project.service_type}
                     </span>
 
-                    <p className="text-xs text-gray-500 dark:text-slate-500 mb-1 font-medium uppercase tracking-wide">
+                    <p className="text-xs text-gray-500 dark:text-slate-500 mb-1 font-medium uppercase tracking-wide line-clamp-1">
                       {project.industry}
                     </p>
 
-                    <p className="text-sm text-gray-600 dark:text-slate-400 mb-4 leading-relaxed flex-1">
+                    <p className="text-sm text-gray-600 dark:text-slate-400 mb-4 leading-relaxed line-clamp-3">
                       {project.problem}
                     </p>
 
-                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 rounded-lg p-2.5">
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 rounded-lg p-2.5 mt-auto">
                       <div className="flex items-center gap-1 mb-1">
                         <TrendingUp size={11} className="text-green-600 dark:text-green-400" />
                         <span className="text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wider">
                           Outcome
                         </span>
                       </div>
-                      <p className="text-xs text-green-800 dark:text-green-300 font-medium leading-relaxed">
+                      <p className="text-xs text-green-800 dark:text-green-300 font-medium leading-relaxed line-clamp-2">
                         {project.result}
                       </p>
                     </div>

@@ -27,7 +27,7 @@ const ProjectCard = ({ project, index }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.07 }}
-      className="card flex flex-col overflow-hidden group hover:-translate-y-1 hover:shadow-xl transition-all duration-200 cursor-pointer"
+      className="card flex flex-col overflow-hidden group hover:-translate-y-1 hover:shadow-xl transition-all duration-200 cursor-pointer h-full"
     >
       {/* Visual banner */}
       <div className={`h-40 rounded-lg bg-gradient-to-br ${project.gradient || 'from-blue-500 to-cyan-500'} mb-5 flex items-center justify-center relative overflow-hidden`}>
@@ -65,14 +65,14 @@ const ProjectCard = ({ project, index }) => {
       <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-slate-500 mb-1">
         Industry
       </div>
-      <p className="text-sm font-medium text-gray-700 dark:text-slate-300 mb-4">
+      <p className="text-sm font-medium text-gray-700 dark:text-slate-300 mb-4 line-clamp-1">
         {project.industry}
       </p>
 
       <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-slate-500 mb-1">
         Problem
       </div>
-      <p className="text-sm text-gray-600 dark:text-slate-400 mb-4 leading-relaxed">
+      <p className="text-sm text-gray-600 dark:text-slate-400 mb-4 leading-relaxed line-clamp-3">
         {project.problem}
       </p>
 
@@ -84,15 +84,15 @@ const ProjectCard = ({ project, index }) => {
             Outcome
           </span>
         </div>
-        <p className="text-sm text-green-800 dark:text-green-300 font-medium leading-relaxed">
+        <p className="text-sm text-green-800 dark:text-green-300 font-medium leading-relaxed line-clamp-2">
           {project.result}
         </p>
       </div>
 
-      {/* Tech */}
+      {/* Tech — max 4 tags to prevent height variation */}
       {project.tech?.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
-          {project.tech.map((t) => (
+          {project.tech.slice(0, 4).map((t) => (
             <span
               key={t}
               className="text-xs bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 px-2 py-0.5 rounded"
@@ -100,6 +100,11 @@ const ProjectCard = ({ project, index }) => {
               {t}
             </span>
           ))}
+          {project.tech.length > 4 && (
+            <span className="text-xs text-gray-400 dark:text-slate-500 px-1 py-0.5">
+              +{project.tech.length - 4} more
+            </span>
+          )}
         </div>
       )}
       {/* View details cue */}
