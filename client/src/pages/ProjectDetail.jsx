@@ -11,8 +11,8 @@ import { SERVICE_TYPE_LABELS } from '../utils/constants'
 const ProjectDetail = () => {
   const { id } = useParams()
   const [project, setProject] = useState(null)
-  const [loading, setLoading]   = useState(true)
-  const [error, setError]       = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [activeImg, setActiveImg] = useState(0)
 
   useEffect(() => {
@@ -46,8 +46,8 @@ const ProjectDetail = () => {
     )
   }
 
-  const images     = project.images || []
-  const hasImgs    = images.length > 0
+  const images = project.images || []
+  const hasImgs = images.length > 0
   // Only show client if explicitly set (not null/empty/Anonymous)
   const showClient = project.client && project.client.trim() !== '' && project.client.toLowerCase() !== 'anonymous'
 
@@ -144,11 +144,10 @@ const ProjectDetail = () => {
                       <button
                         key={path}
                         onClick={() => setActiveImg(idx)}
-                        className={`flex-shrink-0 w-16 h-10 rounded-lg overflow-hidden border-2 transition-all ${
-                          idx === activeImg
+                        className={`flex-shrink-0 w-16 h-10 rounded-lg overflow-hidden border-2 transition-all ${idx === activeImg
                             ? 'border-accent scale-105'
                             : 'border-transparent opacity-60 hover:opacity-100'
-                        }`}
+                          }`}
                       >
                         <img
                           src={`${STORAGE_URL}/${path}`}
@@ -251,7 +250,7 @@ const ProjectDetail = () => {
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border-2 border-accent text-accent hover:bg-accent hover:text-white font-medium text-sm transition-all duration-200"
               >
                 <ExternalLink size={15} />
-                View Live Project
+                View Live
               </a>
             )}
 
