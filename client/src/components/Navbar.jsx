@@ -122,6 +122,15 @@ const Navbar = () => {
             </div>
 
             <Link
+              to="/projects"
+              className={`text-sm font-medium transition-colors hover:text-accent ${
+                location.pathname === '/projects' ? 'text-accent' : 'text-gray-600 dark:text-slate-300'
+              }`}
+            >
+              Projects
+            </Link>
+
+            <Link
               to="/about"
               className={`text-sm font-medium transition-colors hover:text-accent ${
                 location.pathname === '/about' ? 'text-accent' : 'text-gray-600 dark:text-slate-300'
@@ -220,6 +229,15 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
+
+            <Link
+              to="/projects"
+              className={`block px-4 py-3 text-sm font-medium transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 ${
+                location.pathname === '/projects' ? 'text-accent border-l-4 border-accent' : 'text-gray-700 dark:text-slate-300'
+              }`}
+            >
+              Projects
+            </Link>
 
             <Link
               to="/about"

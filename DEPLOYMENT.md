@@ -237,7 +237,7 @@ client/dist/robots.txt                  →  public_html/robots.txt
 server/public/index.php (2 lines       →  public_html/index.php
   modified for Hostinger paths)
 
-client/public/.htaccess                 →  public_html/.htaccess
+client/dist/.htaccess                 →  public_html/.htaccess
 
 server/app/                             →  laravel/app/
 server/bootstrap/                       →  laravel/bootstrap/

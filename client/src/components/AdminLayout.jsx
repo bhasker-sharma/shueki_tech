@@ -14,6 +14,7 @@ import {
   Mail,
   ChevronDown,
   Inbox,
+  FolderKanban,
 } from 'lucide-react'
 import { getUser, logout } from '../utils/auth'
 import { adminAPI } from '../utils/api'
@@ -46,7 +47,7 @@ const AdminLayout = ({ children }) => {
     { name: 'General Enquiry', path: '/admin/enquiries/general', icon: Mail },
   ]
 
-  const isActive = (path) => location.pathname === path
+  const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
   const isEnquiriesActive = location.pathname.startsWith('/admin/enquiries')
 
   return (
@@ -97,6 +98,20 @@ const AdminLayout = ({ children }) => {
             >
               <LayoutDashboard className="w-5 h-5" />
               <span className="font-medium">Dashboard</span>
+            </Link>
+
+            {/* Projects */}
+            <Link
+              to="/admin/projects"
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                location.pathname.startsWith('/admin/projects')
+                  ? 'bg-primary text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              }`}
+            >
+              <FolderKanban className="w-5 h-5" />
+              <span className="font-medium">Projects</span>
             </Link>
 
             {/* Enquiries (collapsible) */}

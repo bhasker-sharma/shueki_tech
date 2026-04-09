@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\API\EnquiryController;
+use App\Http\Controllers\Admin\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 // Public API Routes
 Route::post('/enquiry', [EnquiryController::class, 'store']);
+Route::get('/projects', [ProjectController::class, 'publicIndex']);
+Route::get('/projects/{project}', [ProjectController::class, 'publicShow']);
 
 // Admin Routes
 Route::prefix('admin')->group(function () {
@@ -24,5 +27,11 @@ Route::prefix('admin')->group(function () {
         Route::patch('/enquiries/{id}/status', [\App\Http\Controllers\Admin\EnquiryController::class, 'updateStatus']);
         Route::post('/enquiries/{id}/comments', [\App\Http\Controllers\Admin\EnquiryController::class, 'addComment']);
         Route::delete('/enquiries/{id}', [\App\Http\Controllers\Admin\EnquiryController::class, 'delete']);
+
+        // Project management (POST for both create and update — PHP $_FILES only works with POST)
+        Route::get('/projects', [ProjectController::class, 'index']);
+        Route::post('/projects', [ProjectController::class, 'store']);
+        Route::post('/projects/{project}', [ProjectController::class, 'update']);
+        Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
     });
 });

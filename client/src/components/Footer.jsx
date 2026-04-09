@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mail } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
 import { NAVIGATION_LINKS, COMPANY_INFO, SERVICES } from '../utils/constants'
 
 const Footer = () => {
@@ -64,6 +64,15 @@ const Footer = () => {
             <ul className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-500 dark:text-slate-400">
               <li>{COMPANY_INFO.address}</li>
               <li className="hidden md:block">{COMPANY_INFO.timezone}</li>
+              <li>
+                <a
+                  href={`tel:${COMPANY_INFO.phone.replace(/[^+\d]/g, '')}`}
+                  className="hover:text-accent transition-colors flex items-center gap-1"
+                >
+                  <Phone size={12} />
+                  {COMPANY_INFO.phone}
+                </a>
+              </li>
               <li>
                 <a
                   href={`mailto:${COMPANY_INFO.email}`}
