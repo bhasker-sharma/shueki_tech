@@ -11,12 +11,15 @@ const Services = lazy(() => import('./pages/Services'))
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'))
 const About = lazy(() => import('./pages/About'))
 const Contact = lazy(() => import('./pages/Contact'))
+const Projects = lazy(() => import('./pages/Projects'))
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Admin pages
 const Admin = lazy(() => import('./pages/Admin'))
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
 const AdminEnquiries = lazy(() => import('./pages/AdminEnquiries'))
+const AdminProjects = lazy(() => import('./pages/AdminProjects'))
 
 // Loading component
 const PageLoader = () => (
@@ -93,11 +96,19 @@ function App() {
               <Route path="/admin/enquiries/:serviceType" element={
                 <ProtectedRoute><AdminEnquiries /></ProtectedRoute>
               } />
+              <Route path="/admin/projects" element={
+                <ProtectedRoute><AdminProjects /></ProtectedRoute>
+              } />
+              <Route path="/admin/projects/create" element={
+                <ProtectedRoute><AdminProjects openCreate /></ProtectedRoute>
+              } />
 
               {/* Public routes - with navbar/footer */}
               <Route path="/" element={<Layout><Home /></Layout>} />
               <Route path="/services" element={<Layout><Services /></Layout>} />
               <Route path="/services/:serviceId" element={<Layout><ServiceDetail /></Layout>} />
+              <Route path="/projects" element={<Layout><Projects /></Layout>} />
+              <Route path="/projects/:id" element={<Layout><ProjectDetail /></Layout>} />
               <Route path="/about" element={<Layout><About /></Layout>} />
               <Route path="/contact" element={<Layout><Contact /></Layout>} />
               <Route path="*" element={<Layout><NotFound /></Layout>} />

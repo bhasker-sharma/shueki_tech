@@ -2,6 +2,9 @@ import { getToken, logout } from './auth'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
+// Base URL for stored files: http://localhost:8000/storage
+export const STORAGE_URL = API_BASE_URL.replace(/\/api$/, '') + '/storage'
+
 // Public API client
 export const apiClient = {
   async post(endpoint, data) {
@@ -100,4 +103,52 @@ export const adminAPI = {
 
   deleteEnquiry: (id) =>
     apiRequest(`/admin/enquiries/${id}`, { method: 'DELETE' }),
+}
+
+// Multipart upload request (for FormData with files — no Content-Type header so browser sets boundary)
+const uploadRequest = async (endpoint, formData) => {
+  const token = getToken()
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',
+    },
+    body: formData,
+  })
+
+  const data = await response.json()
+
+  if (response.status === 401) {
+    logout()
+    window.location.href = '/admin'
+    throw new Error('Unauthorized')
+  }
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Upload failed')
+  }
+
+  return data
+}
+
+// Project API
+export const projectAPI = {
+  // Public — no auth needed
+  getPublic: () =>
+    fetch(`${API_BASE_URL}/projects`, { headers: { 'Accept': 'application/json' } })
+      .then((r) => r.json()),
+
+  getById: (id) =>
+    fetch(`${API_BASE_URL}/projects/${id}`, { headers: { 'Accept': 'application/json' } })
+      .then(async (r) => { const d = await r.json(); if (!r.ok) throw new Error(d.message || 'Not found'); return d }),
+
+  // Admin — auth required
+  getAll: () => apiRequest('/admin/projects'),
+
+  create: (formData) => uploadRequest('/admin/projects', formData),
+
+  update: (id, formData) => uploadRequest(`/admin/projects/${id}`, formData),
+
+  delete: (id) => apiRequest(`/admin/projects/${id}`, { method: 'DELETE' }),
 }

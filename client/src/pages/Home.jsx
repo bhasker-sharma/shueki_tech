@@ -1,11 +1,24 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, CheckCircle, Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb } from 'lucide-react'
-import { SERVICES, COMPANY_INFO } from '../utils/constants'
+import { ArrowRight, CheckCircle, Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb, TrendingUp } from 'lucide-react'
+import { SERVICES, COMPANY_INFO, SERVICE_TYPE_LABELS } from '../utils/constants'
+import { projectAPI, STORAGE_URL } from '../utils/api'
 
 const iconMap = { Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb }
 
 const Home = () => {
+  const [featuredProjects, setFeaturedProjects] = useState([])
+
+  useEffect(() => {
+    projectAPI.getPublic()
+      .then((data) => {
+        const featured = (data.projects || []).filter((p) => p.featured).slice(0, 4)
+        setFeaturedProjects(featured)
+      })
+      .catch(() => { /* silently skip if API unavailable */ })
+  }, [])
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -154,6 +167,84 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Featured Projects — only rendered when there are published+featured projects */}
+      {featuredProjects.length > 0 && (
+        <section className="section-padding bg-gray-50 dark:bg-slate-950">
+          <div className="container-custom">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4">
+                Featured Projects
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+                A snapshot of problems we&apos;ve solved across industries
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredProjects.map((project, index) => {
+                const firstImage = project.images?.[0]
+                return (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                  <Link to={`/projects/${project.id}`} className="card flex flex-col group hover:-translate-y-1 hover:shadow-xl transition-all duration-200 block">
+                    {/* Banner */}
+                    <div className={`h-28 rounded-lg bg-gradient-to-br ${project.gradient || 'from-blue-500 to-cyan-500'} mb-4 flex items-center justify-center relative overflow-hidden`}>
+                      {firstImage ? (
+                        <img src={`${STORAGE_URL}/${firstImage}`} alt={project.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 bg-black/10" />
+                          <span className="relative text-white font-semibold text-sm px-3 text-center leading-tight">
+                            {project.title}
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    <span className="text-xs bg-primary/10 dark:bg-primary/20 text-accent px-2 py-1 rounded font-medium self-start mb-3">
+                      {SERVICE_TYPE_LABELS[project.service_type] || project.service_type}
+                    </span>
+
+                    <p className="text-xs text-gray-500 dark:text-slate-500 mb-1 font-medium uppercase tracking-wide">
+                      {project.industry}
+                    </p>
+
+                    <p className="text-sm text-gray-600 dark:text-slate-400 mb-4 leading-relaxed flex-1">
+                      {project.problem}
+                    </p>
+
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/30 rounded-lg p-2.5">
+                      <div className="flex items-center gap-1 mb-1">
+                        <TrendingUp size={11} className="text-green-600 dark:text-green-400" />
+                        <span className="text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wider">
+                          Outcome
+                        </span>
+                      </div>
+                      <p className="text-xs text-green-800 dark:text-green-300 font-medium leading-relaxed">
+                        {project.result}
+                      </p>
+                    </div>
+                  </Link>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            <div className="text-center mt-10">
+              <Link to="/projects" className="btn-primary inline-flex items-center gap-2">
+                View All Projects
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="section-padding bg-gradient-to-r from-primary to-accent">
