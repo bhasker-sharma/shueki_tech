@@ -2,12 +2,16 @@
 
 use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\FaqController;
 use Illuminate\Support\Facades\Route;
 
 // Public API Routes
 Route::post('/enquiry', [EnquiryController::class, 'store']);
 Route::get('/projects', [ProjectController::class, 'publicIndex']);
 Route::get('/projects/{project}', [ProjectController::class, 'publicShow']);
+Route::get('/testimonials', [TestimonialController::class, 'publicIndex']);
+Route::get('/faqs', [FaqController::class, 'publicIndex']);
 
 // Admin Routes
 Route::prefix('admin')->group(function () {
@@ -33,5 +37,17 @@ Route::prefix('admin')->group(function () {
         Route::post('/projects', [ProjectController::class, 'store']);
         Route::post('/projects/{project}', [ProjectController::class, 'update']);
         Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
+
+        // FAQ management
+        Route::get('/faqs', [FaqController::class, 'index']);
+        Route::post('/faqs', [FaqController::class, 'store']);
+        Route::patch('/faqs/{faq}', [FaqController::class, 'update']);
+        Route::delete('/faqs/{faq}', [FaqController::class, 'destroy']);
+
+        // Testimonial management
+        Route::get('/testimonials', [TestimonialController::class, 'index']);
+        Route::post('/testimonials', [TestimonialController::class, 'store']);
+        Route::patch('/testimonials/{testimonial}', [TestimonialController::class, 'update']);
+        Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy']);
     });
 });

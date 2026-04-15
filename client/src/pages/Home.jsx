@@ -1,14 +1,37 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowRight, CheckCircle, Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb, TrendingUp } from 'lucide-react'
+import { ArrowRight, CheckCircle, Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb, TrendingUp, Star, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
 import { SERVICES, COMPANY_INFO, SERVICE_TYPE_LABELS } from '../utils/constants'
-import { projectAPI, STORAGE_URL } from '../utils/api'
+import { projectAPI, testimonialAPI, faqAPI, STORAGE_URL } from '../utils/api'
 
 const iconMap = { Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb }
 
 const Home = () => {
   const [featuredProjects, setFeaturedProjects] = useState([])
+  const [testimonials, setTestimonials] = useState([])
+  const [faqs, setFaqs] = useState([])
+  const [openFaq, setOpenFaq] = useState(null)
+  const [testimonialIndex, setTestimonialIndex] = useState(0)
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    setIsDesktop(mq.matches)
+    const handler = (e) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  const itemsPerView = isDesktop ? 3 : 1
+  const maxIndex = Math.max(0, testimonials.length - itemsPerView)
+
+  useEffect(() => {
+    setTestimonialIndex(i => Math.min(i, maxIndex))
+  }, [maxIndex])
+
+  const prevTestimonial = () => setTestimonialIndex(i => Math.max(0, i - 1))
+  const nextTestimonial = () => setTestimonialIndex(i => Math.min(maxIndex, i + 1))
 
   useEffect(() => {
     projectAPI.getPublic()
@@ -16,6 +39,18 @@ const Home = () => {
         const featured = (data.projects || []).filter((p) => p.featured).slice(0, 4)
         setFeaturedProjects(featured)
       })
+      .catch(() => { /* silently skip if API unavailable */ })
+  }, [])
+
+  useEffect(() => {
+    testimonialAPI.getPublic()
+      .then((data) => setTestimonials(data.testimonials || []))
+      .catch(() => { /* silently skip if API unavailable */ })
+  }, [])
+
+  useEffect(() => {
+    faqAPI.getPublic('home')
+      .then((data) => setFaqs(data.faqs || []))
       .catch(() => { /* silently skip if API unavailable */ })
   }, [])
 
@@ -168,6 +203,102 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Testimonials — only rendered when data is available from the DB */}
+      {testimonials.length > 0 && <section className="section-padding bg-white dark:bg-slate-900">
+        <div className="container-custom">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4">
+              What Our Clients Say
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+              Real feedback from the teams we&apos;ve worked with
+            </p>
+          </div>
+
+          {/* Slider wrapper */}
+          <div className="relative">
+            {/* Prev button */}
+            <button
+              onClick={prevTestimonial}
+              disabled={testimonialIndex === 0}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-md border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 hover:text-accent dark:hover:text-accent transition-colors disabled:opacity-30 disabled:cursor-default"
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            {/* Track — w-full is critical so translateX % is relative to the container */}
+            <div className="overflow-hidden">
+              <div
+                className="flex w-full transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${testimonialIndex * (100 / itemsPerView)}%)` }}
+              >
+                {testimonials.map((t, index) => (
+                  <div
+                    key={index}
+                    className="w-full lg:w-1/3 flex-shrink-0 px-3"
+                  >
+                    <div className="card flex flex-col gap-4 h-full">
+                      {/* Stars */}
+                      <div className="flex gap-1">
+                        {Array.from({ length: t.rating }).map((_, i) => (
+                          <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />
+                        ))}
+                      </div>
+
+                      {/* Quote */}
+                      <p className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed flex-1">
+                        &ldquo;{t.text}&rdquo;
+                      </p>
+
+                      {/* Author */}
+                      <div className="flex items-center gap-3 pt-2 border-t border-gray-100 dark:border-slate-700">
+                        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.gradient} flex items-center justify-center flex-shrink-0`}>
+                          <span className="text-white text-xs font-bold">{t.initials}</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{t.name}</p>
+                          <p className="text-xs text-gray-500 dark:text-slate-400">{t.role}, {t.company}</p>
+                        </div>
+                        <span className="ml-auto text-xs bg-primary/10 dark:bg-primary/20 text-accent px-2 py-1 rounded font-medium whitespace-nowrap">
+                          {t.service}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Next button */}
+            <button
+              onClick={nextTestimonial}
+              disabled={testimonialIndex === maxIndex}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-md border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 hover:text-accent dark:hover:text-accent transition-colors disabled:opacity-30 disabled:cursor-default"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight size={18} />
+            </button>
+
+            {/* Dot indicators — count changes with itemsPerView */}
+            <div className="flex justify-center gap-2 mt-6">
+              {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setTestimonialIndex(i)}
+                  aria-label={`Go to slide ${i + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === testimonialIndex
+                      ? 'bg-accent w-5'
+                      : 'bg-gray-300 dark:bg-slate-600 w-2'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>}
+
       {/* Featured Projects — only rendered when there are published+featured projects */}
       {featuredProjects.length > 0 && (
         <section className="section-padding bg-gray-50 dark:bg-slate-950">
@@ -241,6 +372,50 @@ const Home = () => {
                 View All Projects
                 <ArrowRight size={18} />
               </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ Preview — only rendered when FAQs with page=home exist in the DB */}
+      {faqs.length > 0 && (
+        <section className="section-padding bg-gray-50 dark:bg-slate-950">
+          <div className="container-custom">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+                Quick answers to the questions we hear most often
+              </p>
+            </div>
+
+            <div className="max-w-3xl mx-auto divide-y divide-gray-200 dark:divide-slate-700">
+              {faqs.map((faq, index) => (
+                <div key={faq.id} className="py-4">
+                  <button
+                    className="w-full flex items-center justify-between gap-4 text-left group"
+                    onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  >
+                    <span className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white group-hover:text-accent transition-colors">
+                      {faq.question}
+                    </span>
+                    {openFaq === index
+                      ? <ChevronUp size={18} className="text-accent flex-shrink-0" />
+                      : <ChevronDown size={18} className="text-gray-400 dark:text-slate-500 flex-shrink-0" />
+                    }
+                  </button>
+                  {openFaq === index && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="mt-3 text-sm text-gray-600 dark:text-slate-400 leading-relaxed"
+                    >
+                      {faq.answer}
+                    </motion.p>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </section>
