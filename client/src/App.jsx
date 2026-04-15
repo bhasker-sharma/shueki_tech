@@ -20,6 +20,8 @@ const Admin = lazy(() => import('./pages/Admin'))
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
 const AdminEnquiries = lazy(() => import('./pages/AdminEnquiries'))
 const AdminProjects = lazy(() => import('./pages/AdminProjects'))
+const AdminTestimonials = lazy(() => import('./pages/AdminTestimonials'))
+const AdminFaqs = lazy(() => import('./pages/AdminFaqs'))
 
 // Loading component
 const PageLoader = () => (
@@ -101,6 +103,12 @@ function App() {
               } />
               <Route path="/admin/projects/create" element={
                 <ProtectedRoute><AdminProjects openCreate /></ProtectedRoute>
+              } />
+              <Route path="/admin/testimonials" element={
+                <ProtectedRoute><AdminTestimonials /></ProtectedRoute>
+              } />
+              <Route path="/admin/faqs" element={
+                <ProtectedRoute><AdminFaqs /></ProtectedRoute>
               } />
 
               {/* Public routes - with navbar/footer */}

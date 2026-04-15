@@ -15,6 +15,8 @@ import {
   ChevronDown,
   Inbox,
   FolderKanban,
+  MessageSquare,
+  HelpCircle,
 } from 'lucide-react'
 import { getUser, logout } from '../utils/auth'
 import { adminAPI } from '../utils/api'
@@ -23,7 +25,7 @@ const AdminLayout = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [enquiriesOpen, setEnquiriesOpen] = useState(true)
+  const [enquiriesOpen, setEnquiriesOpen] = useState(false)
   const user = getUser()
 
   const handleLogout = async () => {
@@ -112,6 +114,34 @@ const AdminLayout = ({ children }) => {
             >
               <FolderKanban className="w-5 h-5" />
               <span className="font-medium">Projects</span>
+            </Link>
+
+            {/* Testimonials */}
+            <Link
+              to="/admin/testimonials"
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                location.pathname.startsWith('/admin/testimonials')
+                  ? 'bg-primary text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              }`}
+            >
+              <MessageSquare className="w-5 h-5" />
+              <span className="font-medium">Testimonials</span>
+            </Link>
+
+            {/* FAQs */}
+            <Link
+              to="/admin/faqs"
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                location.pathname.startsWith('/admin/faqs')
+                  ? 'bg-primary text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              }`}
+            >
+              <HelpCircle className="w-5 h-5" />
+              <span className="font-medium">FAQs</span>
             </Link>
 
             {/* Enquiries (collapsible) */}

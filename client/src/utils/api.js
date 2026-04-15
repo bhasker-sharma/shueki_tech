@@ -132,6 +132,47 @@ const uploadRequest = async (endpoint, formData) => {
   return data
 }
 
+// FAQ API
+export const faqAPI = {
+  // Public — supports ?page=home|contact|web-development|… filter
+  getPublic: (page) => {
+    const url = page
+      ? `${API_BASE_URL}/faqs?page=${encodeURIComponent(page)}`
+      : `${API_BASE_URL}/faqs`
+    return fetch(url, { headers: { 'Accept': 'application/json' } }).then((r) => r.json())
+  },
+
+  // Admin — auth required
+  getAll: () => apiRequest('/admin/faqs'),
+
+  create: (data) =>
+    apiRequest('/admin/faqs', { method: 'POST', body: JSON.stringify(data) }),
+
+  update: (id, data) =>
+    apiRequest(`/admin/faqs/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  delete: (id) => apiRequest(`/admin/faqs/${id}`, { method: 'DELETE' }),
+}
+
+// Testimonial API
+export const testimonialAPI = {
+  // Public — no auth needed
+  getPublic: () =>
+    fetch(`${API_BASE_URL}/testimonials`, { headers: { 'Accept': 'application/json' } })
+      .then((r) => r.json()),
+
+  // Admin — auth required
+  getAll: () => apiRequest('/admin/testimonials'),
+
+  create: (data) =>
+    apiRequest('/admin/testimonials', { method: 'POST', body: JSON.stringify(data) }),
+
+  update: (id, data) =>
+    apiRequest(`/admin/testimonials/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  delete: (id) => apiRequest(`/admin/testimonials/${id}`, { method: 'DELETE' }),
+}
+
 // Project API
 export const projectAPI = {
   // Public — no auth needed
