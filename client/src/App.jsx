@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
+import WhatsAppButton from './components/WhatsAppButton'
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'))
@@ -80,6 +81,7 @@ const Layout = ({ children }) => (
     <Navbar />
     <main>{children}</main>
     <Footer />
+    <WhatsAppButton />
   </>
 )
 
