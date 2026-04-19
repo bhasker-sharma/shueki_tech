@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb, CheckCircle, ArrowRight } from 'lucide-react'
 import Hero from '../components/Hero'
 import EnquiryForm from '../components/EnquiryForm'
+import FaqSection from '../components/FaqSection'
 import { SERVICES } from '../utils/constants'
 
 const iconMap = { Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb }
@@ -260,6 +261,8 @@ const ServiceDetail = () => {
           </div>
         </div>
       </section>
+
+      <FaqSection page={serviceId} subtitle={`Common questions about our ${service.title.toLowerCase()} services`} />
 
       {/* Enquiry Form */}
       <section className="section-padding bg-gray-50 dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-950">
