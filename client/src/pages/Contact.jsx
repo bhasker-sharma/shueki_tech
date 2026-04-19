@@ -3,8 +3,10 @@ import { Mail, MapPin, Clock, Phone } from 'lucide-react'
 import Hero from '../components/Hero'
 import EnquiryForm from '../components/EnquiryForm'
 import { COMPANY_INFO } from '../utils/constants'
+import FaqSection from '../components/FaqSection'
 
 const Contact = () => {
+
   return (
     <div className="min-h-screen">
       <Hero
@@ -98,6 +100,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      <FaqSection page="contact" subtitle="Quick answers to common questions about reaching us" />
     </div>
   )
 }
