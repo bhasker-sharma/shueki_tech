@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import {
   ArrowLeft, TrendingUp, Users, Calendar,
@@ -54,8 +55,18 @@ const ProjectDetail = () => {
   const prevImg = () => setActiveImg((i) => (i - 1 + images.length) % images.length)
   const nextImg = () => setActiveImg((i) => (i + 1) % images.length)
 
+  const metaDesc = project.problem?.length > 155
+    ? project.problem.slice(0, 152) + '...'
+    : project.problem
+
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <>
+      <Helmet>
+        <title>{project.title} | Shueki Tech Projects</title>
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={`https://shuekitech.com/projects/${id}`} />
+      </Helmet>
+      <div className="min-h-screen bg-white dark:bg-slate-950">
 
       {/* ── Top bar ── */}
       <div className="pt-24 pb-8 bg-gray-50 dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800">
@@ -297,6 +308,7 @@ const ProjectDetail = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

@@ -1,4 +1,5 @@
 import { useParams, Link, Navigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import { Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb, CheckCircle, ArrowRight } from 'lucide-react'
 import Hero from '../components/Hero'
@@ -141,7 +142,13 @@ const ServiceDetail = () => {
   const otherServices = SERVICES.filter((s) => s.id !== serviceId)
 
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>{service.title} Services | Shueki Tech</title>
+        <meta name="description" content={content.heroDescription} />
+        <link rel="canonical" href={`https://shuekitech.com/services/${serviceId}`} />
+      </Helmet>
+      <div className="min-h-screen">
       <Hero
         title={service.title}
         subtitle={content.heroSubtitle}
@@ -318,6 +325,7 @@ const ServiceDetail = () => {
         </div>
       </section>
     </div>
+    </>
   )
 }
 

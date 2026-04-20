@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import { Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb, ArrowRight } from 'lucide-react'
 import Hero from '../components/Hero'
@@ -8,7 +9,13 @@ const iconMap = { Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb }
 
 const Services = () => {
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>Engineering Services | Web Dev, AI, Automation & PCB Design — Shueki Tech</title>
+        <meta name="description" content="Explore Shueki Tech's 6 core engineering services: web development, mobile apps, AI pipelines, PCB design, industrial automation, and R&D consultancy." />
+        <link rel="canonical" href="https://shuekitech.com/services" />
+      </Helmet>
+      <div className="min-h-screen">
       <Hero
         title="Our Services"
         subtitle="What We Offer"
@@ -104,6 +111,7 @@ const Services = () => {
         </div>
       </section>
     </div>
+    </>
   )
 }
 

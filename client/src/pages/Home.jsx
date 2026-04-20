@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle, Globe, Cog, Brain, CircuitBoard, Smartphone, Lightbulb, TrendingUp, Star, ChevronLeft, ChevronRight } from 'lucide-react'
 import { SERVICES, COMPANY_INFO, SERVICE_TYPE_LABELS } from '../utils/constants'
@@ -50,7 +51,13 @@ const Home = () => {
 
 
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>Shueki Tech | Engineering Solutions for Web, AI & Industrial Automation</title>
+        <meta name="description" content="Shueki Tech delivers precision engineering solutions — web development, mobile apps, AI pipelines, PCB design, industrial automation, and R&D consultancy. Based in Punjab, India." />
+        <link rel="canonical" href="https://shuekitech.com/" />
+      </Helmet>
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center hero-gradient pt-20 pb-8">
         <div className="container-custom relative z-10">
@@ -392,6 +399,7 @@ const Home = () => {
         </div>
       </section>
     </div>
+    </>
   )
 }
 
