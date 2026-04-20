@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
 import { Users, Target, Globe2, Award, Shield } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Hero from '../components/Hero'
@@ -23,7 +24,13 @@ const About = () => {
   ]
 
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>About Shueki Tech | Engineering Team in Punjab, India</title>
+        <meta name="description" content="Meet the Shueki Tech team — multidisciplinary engineers in Punjab, India specialising in software, PCB hardware, and industrial automation for global clients." />
+        <link rel="canonical" href="https://shuekitech.com/about" />
+      </Helmet>
+      <div className="min-h-screen">
       <Hero
         title="About Shueki Tech"
         subtitle="Who We Are"
@@ -56,7 +63,7 @@ const About = () => {
               <Globe2 className="text-accent mb-4" size={40} />
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Global Reach</h2>
               <p className="text-gray-600 dark:text-slate-400">
-                Based in Bangalore, India&apos;s technology capital, we serve clients globally. Our IST timezone provides strategic overlap with US and EU business hours for real-time collaboration.
+                Based in Garhshankar, Punjab, India, we serve clients globally. Our IST timezone provides strategic overlap with US and EU business hours for real-time collaboration.
               </p>
             </motion.div>
           </div>
@@ -183,6 +190,7 @@ const About = () => {
         </div>
       </section>
     </div>
+    </>
   )
 }
 

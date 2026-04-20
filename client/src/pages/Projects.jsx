@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
 import { ArrowRight, TrendingUp, Users, Calendar, Loader2, AlertCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Hero from '../components/Hero'
@@ -133,7 +134,13 @@ const Projects = () => {
     : projects.filter((p) => p.service_type === activeFilter)
 
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>Engineering Projects & Portfolio | Shueki Tech</title>
+        <meta name="description" content="Browse Shueki Tech's portfolio of delivered engineering projects across web development, AI pipelines, industrial automation, PCB design, and mobile apps." />
+        <link rel="canonical" href="https://shuekitech.com/projects" />
+      </Helmet>
+      <div className="min-h-screen">
       <Hero
         title="Our Work"
         subtitle="Projects & Portfolio"
@@ -218,6 +225,7 @@ const Projects = () => {
         </div>
       </section>
     </div>
+    </>
   )
 }
 

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
 import { Mail, MapPin, Clock, Phone } from 'lucide-react'
 import Hero from '../components/Hero'
 import EnquiryForm from '../components/EnquiryForm'
@@ -8,7 +9,13 @@ import FaqSection from '../components/FaqSection'
 const Contact = () => {
 
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>Contact Shueki Tech | Get a Free Engineering Consultation</title>
+        <meta name="description" content="Get in touch with Shueki Tech for a free project consultation. Located in Garhshankar, Punjab. Reach us by email, phone, or our contact form — response within 24 hours." />
+        <link rel="canonical" href="https://shuekitech.com/contact" />
+      </Helmet>
+      <div className="min-h-screen">
       <Hero
         title="Get in Touch"
         subtitle="Contact Us"
@@ -102,6 +109,7 @@ const Contact = () => {
       </section>
       <FaqSection page="contact" subtitle="Quick answers to common questions about reaching us" />
     </div>
+    </>
   )
 }
 

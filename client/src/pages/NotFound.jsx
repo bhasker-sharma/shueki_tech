@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { Home, ArrowLeft } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950 px-4">
+    <>
+      <Helmet>
+        <title>404 Page Not Found | Shueki Tech</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -37,6 +43,7 @@ const NotFound = () => {
         </div>
       </motion.div>
     </div>
+    </>
   )
 }
 
