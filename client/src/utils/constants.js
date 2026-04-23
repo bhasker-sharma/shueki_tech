@@ -6,9 +6,9 @@ export const COMPANY_INFO = {
   address: 'Opposite UCO Bank, Ground Floor, Hoshiarpur Road, Garhshankar, Punjab - 144527',
   timezone: 'IST (UTC+5:30)',
   stats: {
-    projects: '50+',
-    clients: '30+',
-    experience: '10+',
+    projects: '10+',
+    clients: '3+',
+    experience: '2+',
   },
 }
 
