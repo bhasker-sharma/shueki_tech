@@ -9,12 +9,9 @@ import { SERVICE_TYPE_LABELS } from '../utils/constants'
 
 const SERVICE_FILTERS = [
   { key: 'all', label: 'All Projects' },
-  { key: 'web-development', label: 'Web Dev' },
-  { key: 'machine-integration', label: 'Automation' },
-  { key: 'ai-pipelines', label: 'AI Pipelines' },
-  { key: 'pcb-designing', label: 'PCB Design' },
-  { key: 'app-development', label: 'App Dev' },
-  { key: 'rd-consultancy', label: 'R&D' },
+  { key: 'desktop-applications', label: 'Desktop Applications' },
+  { key: 'web-dashboards', label: 'Web Dashboards' },
+  { key: 'edge-integration', label: 'Edge Integration' },
 ]
 
 const MotionLink = motion(Link)
@@ -136,15 +133,15 @@ const Projects = () => {
   return (
     <>
       <Helmet>
-        <title>Engineering Projects & Portfolio | Shueki Tech</title>
-        <meta name="description" content="Browse Shueki Tech's portfolio of delivered engineering projects across web development, AI pipelines, industrial automation, PCB design, and mobile apps." />
+        <title>Projects & Portfolio | Connected Software Systems — Shueki Tech</title>
+        <meta name="description" content="Browse Shueki Tech's portfolio of delivered software projects — desktop applications, web dashboards, and edge integration systems for connected products and operations." />
         <link rel="canonical" href="https://shuekitech.com/projects" />
       </Helmet>
       <div className="min-h-screen">
       <Hero
         title="Our Work"
         subtitle="Projects & Portfolio"
-        description="Real problems solved. Measurable outcomes delivered."
+        description="Real systems built for connected products, operational environments, and the teams that depend on them."
       />
 
       <section className="section-padding bg-white dark:bg-slate-950">

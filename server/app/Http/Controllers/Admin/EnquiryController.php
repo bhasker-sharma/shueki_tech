@@ -92,12 +92,9 @@ class EnquiryController extends Controller
     public function stats()
     {
         $serviceTypes = [
-            'web-development',
-            'machine-integration',
-            'ai-pipelines',
-            'pcb-designing',
-            'app-development',
-            'rd-consultancy',
+            'desktop-applications',
+            'web-dashboards',
+            'edge-integration',
             'general',
         ];
 

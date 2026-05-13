@@ -9,14 +9,12 @@ import {
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const PAGE_OPTIONS = [
-  { value: 'home',                label: 'Home Page' },
-  { value: 'contact',             label: 'Contact Page' },
-  { value: 'web-development',     label: 'Service: Website Development' },
-  { value: 'machine-integration', label: 'Service: Machine Integration' },
-  { value: 'ai-pipelines',        label: 'Service: AI Pipelines' },
-  { value: 'pcb-designing',       label: 'Service: PCB Designing' },
-  { value: 'app-development',     label: 'Service: App Development' },
-  { value: 'rd-consultancy',      label: 'Service: R&D Consultancy' },
+  { value: 'home',                 label: 'Home Page' },
+  { value: 'contact',              label: 'Contact Page' },
+  { value: 'what-we-build',        label: 'What We Build Page' },
+  { value: 'desktop-applications', label: 'Service: Desktop Applications' },
+  { value: 'web-dashboards',       label: 'Service: Web Dashboards' },
+  { value: 'edge-integration',     label: 'Service: Edge Integration' },
 ]
 
 const EMPTY_FORM = {

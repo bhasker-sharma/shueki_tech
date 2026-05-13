@@ -47,12 +47,9 @@ const AdminDashboard = () => {
   }
 
   const serviceTypes = [
-    'web-development',
-    'machine-integration',
-    'ai-pipelines',
-    'pcb-designing',
-    'app-development',
-    'rd-consultancy',
+    'desktop-applications',
+    'web-dashboards',
+    'edge-integration',
     'general',
   ]
 

@@ -5,12 +5,9 @@ import {
   LogOut,
   Menu,
   X,
-  Globe,
-  Cog,
-  Brain,
-  CircuitBoard,
-  Smartphone,
-  Lightbulb,
+  Monitor,
+  Gauge,
+  Cpu,
   Mail,
   ChevronDown,
   Inbox,
@@ -40,12 +37,9 @@ const AdminLayout = ({ children }) => {
   }
 
   const enquiryLinks = [
-    { name: 'Website Development', path: '/admin/enquiries/web-development', icon: Globe },
-    { name: 'Machine Integration', path: '/admin/enquiries/machine-integration', icon: Cog },
-    { name: 'AI Pipelines', path: '/admin/enquiries/ai-pipelines', icon: Brain },
-    { name: 'PCB Designing', path: '/admin/enquiries/pcb-designing', icon: CircuitBoard },
-    { name: 'App Development', path: '/admin/enquiries/app-development', icon: Smartphone },
-    { name: 'R&D Consultancy', path: '/admin/enquiries/rd-consultancy', icon: Lightbulb },
+    { name: 'Desktop Applications', path: '/admin/enquiries/desktop-applications', icon: Monitor },
+    { name: 'Web Dashboards', path: '/admin/enquiries/web-dashboards', icon: Gauge },
+    { name: 'Edge Integration', path: '/admin/enquiries/edge-integration', icon: Cpu },
     { name: 'General Enquiry', path: '/admin/enquiries/general', icon: Mail },
   ]
 
