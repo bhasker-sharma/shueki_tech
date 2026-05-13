@@ -25,18 +25,19 @@ shueki_tech/
 |---|---|
 | `/` | Home |
 | `/about` | About |
-| `/services` | Services list |
-| `/services/:slug` | Service detail |
+| `/what-we-build` | Services overview |
+| `/what-we-build/desktop-applications` | Desktop Applications detail |
+| `/what-we-build/web-dashboards` | Web Dashboards detail |
+| `/what-we-build/edge-integration` | Edge Integration detail |
 | `/projects` | Projects |
-| `/projects/:slug` | Project detail |
+| `/projects/:id` | Project detail |
 | `/contact` | Contact form |
-| `/faq` | FAQ |
 | `/admin` | Admin login |
 | `/admin/dashboard` | Admin dashboard |
 
 ## Admin Portal Features
 
-- Manage enquiries (from contact form)
+- Manage enquiries by service type (Desktop Applications, Web Dashboards, Edge Integration, General)
 - Manage projects
 - Manage FAQs
 - Manage testimonials
@@ -57,7 +58,8 @@ composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
-php artisan db:seed --class=AdminSeeder
+php artisan config:clear
+php artisan db:seed --class=AdminUserSeeder
 php artisan serve
 ```
 
@@ -67,12 +69,13 @@ See `DEPLOYMENT.md` for the full step-by-step Hostinger deployment guide.
 
 ## Current Status
 
-- Website live on Hostinger
-- Admin portal active
+- Website live on Hostinger (shuekitech.com)
+- Repositioned to "Software for Connected Products and Operations" (3 focused services)
+- Admin portal active with enquiry management per service type
 - FAQ and Testimonials section complete
-- Technical SEO done (meta tags, sitemap, headings)
-- WhatsApp button added
-- Email sender feature in progress (`feature/emailsender` branch)
+- Technical SEO done (meta tags, sitemap, structured headings)
+- WhatsApp button active
+- Email notifications working (confirmation to enquirer + notification to admin)
 
 ---
 

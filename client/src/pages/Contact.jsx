@@ -11,15 +11,15 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Shueki Tech | Get a Free Engineering Consultation</title>
-        <meta name="description" content="Get in touch with Shueki Tech for a free project consultation. Located in Garhshankar, Punjab. Reach us by email, phone, or our contact form — response within 24 hours." />
+        <title>Contact Shueki Tech | Discuss Your Connected Software System</title>
+        <meta name="description" content="Talk to Shueki Tech about your desktop application, web dashboard, or connected system. Based in Punjab, India. Response within one business day." />
         <link rel="canonical" href="https://shuekitech.com/contact" />
       </Helmet>
       <div className="min-h-screen">
       <Hero
-        title="Get in Touch"
+        title="Discuss Your System"
         subtitle="Contact Us"
-        description="Have a project idea or need a consultation? We'd love to hear from you."
+        description="Tell us about your software, the hardware context, and where you are in the process. We will tell you honestly whether and how we can help."
       />
 
       <section className="section-padding bg-white dark:bg-slate-950">
@@ -32,10 +32,10 @@ const Contact = () => {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-3xl font-display font-bold text-gray-900 dark:text-white mb-6">
-                Let&apos;s Build Something Amazing
+                Start the Conversation
               </h2>
               <p className="text-gray-600 dark:text-slate-400 mb-8">
-                Fill out the form and our team will get back to you within 24 hours. We&apos;re here to help with any of our services.
+                Fill out the form and we will get back to you within one business day. No sales pitch — just an honest discussion about your system and whether we are the right fit.
               </p>
 
               <div className="space-y-6">

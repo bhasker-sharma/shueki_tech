@@ -21,6 +21,15 @@
   RewriteCond %{HTTP:x-xsrf-token} .
   RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+  # Permanent 301 redirects for old service URLs (SEO preservation)
+  RewriteRule ^services/?$ /what-we-build [R=301,L]
+  RewriteRule ^services/web-development/?$ /what-we-build/web-dashboards [R=301,L]
+  RewriteRule ^services/machine-integration/?$ /what-we-build/edge-integration [R=301,L]
+  RewriteRule ^services/ai-pipelines/?$ /what-we-build/edge-integration [R=301,L]
+  RewriteRule ^services/pcb-designing/?$ /what-we-build [R=301,L]
+  RewriteRule ^services/app-development/?$ /what-we-build/desktop-applications [R=301,L]
+  RewriteRule ^services/rd-consultancy/?$ /what-we-build [R=301,L]
+
   # Route /api/* and /sanctum/* to Laravel (index.php)
   RewriteRule ^api(/.*)?$ index.php [L]
   RewriteRule ^sanctum(/.*)?$ index.php [L]

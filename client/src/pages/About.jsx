@@ -7,34 +7,34 @@ import Hero from '../components/Hero'
 const About = () => {
   const teams = [
     {
-      name: 'Software Engineering',
-      role: 'Full-Stack & Cloud',
-      expertise: 'React, Node.js, Laravel, Python, AWS',
+      name: 'Software & Interfaces',
+      role: 'Desktop, Web & Control Software',
+      expertise: 'React, Electron, Tauri, Node.js, Laravel, PostgreSQL',
     },
     {
-      name: 'Hardware & Embedded',
-      role: 'PCB & Electronics',
-      expertise: 'KiCAD, Altium, Circuit Design, Firmware',
+      name: 'Edge & Data Systems',
+      role: 'Device Connectivity & Pipelines',
+      expertise: 'MQTT, OPC-UA, Modbus, Python, Node.js, InfluxDB',
     },
     {
       name: 'Automation & AI',
-      role: 'ML & Robotics',
-      expertise: 'ROS2, TensorFlow, PLC/SCADA, Computer Vision',
+      role: 'Data Intelligence & Workflow',
+      expertise: 'PLC/SCADA, TensorFlow, LangChain, OpenCV, n8n',
     },
   ]
 
   return (
     <>
       <Helmet>
-        <title>About Shueki Tech | Engineering Team in Punjab, India</title>
-        <meta name="description" content="Meet the Shueki Tech team — multidisciplinary engineers in Punjab, India specialising in software, PCB hardware, and industrial automation for global clients." />
+        <title>About Shueki Tech | Specialized Software Team in Punjab, India</title>
+        <meta name="description" content="Shueki Tech is a specialized software team based in Punjab, India. We build desktop applications, web dashboards, and control interfaces for connected products and operational systems." />
         <link rel="canonical" href="https://shuekitech.com/about" />
       </Helmet>
       <div className="min-h-screen">
       <Hero
         title="About Shueki Tech"
         subtitle="Who We Are"
-        description="A multidisciplinary engineering team delivering innovative solutions across software, hardware, and automation."
+        description="A specialized software team building desktop applications, web dashboards, and control interfaces for companies working with connected products and operational systems."
       />
 
       {/* Mission & Vision */}
@@ -50,7 +50,7 @@ const About = () => {
               <Target className="text-accent mb-4" size={40} />
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Our Mission</h2>
               <p className="text-gray-600 dark:text-slate-400">
-                To bridge the gap between innovative ideas and production-ready solutions. We combine technical excellence with agile delivery to help businesses build, automate, and scale their technology infrastructure.
+                To build software that works in the real world — not just in a browser demo. We are a focused team. We build software interfaces for connected products and operational environments, and we understand the hardware context those systems live in.
               </p>
             </motion.div>
 
@@ -61,9 +61,9 @@ const About = () => {
               className="card"
             >
               <Globe2 className="text-accent mb-4" size={40} />
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Global Reach</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Remote-Ready</h2>
               <p className="text-gray-600 dark:text-slate-400">
-                Based in Garhshankar, Punjab, India, we serve clients globally. Our IST timezone provides strategic overlap with US and EU business hours for real-time collaboration.
+                Based in Garhshankar, Punjab, India, we work with clients globally. Our IST timezone overlaps with EU afternoons and US mornings. Our delivery process — discovery documents, sprint demos, and clear handovers — is built for remote collaboration from the ground up.
               </p>
             </motion.div>
           </div>
@@ -75,10 +75,10 @@ const About = () => {
         <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4">
-              Our Expert Teams
+              Our Capabilities
             </h2>
             <p className="text-base sm:text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Specialized engineering teams with deep domain expertise
+              Three focused practice areas that work together on every connected system we build.
             </p>
           </div>
 
@@ -111,14 +111,17 @@ const About = () => {
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4">
               How We Work
             </h2>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto">
+              A process designed for technical precision and remote delivery.
+            </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { step: '01', title: 'Discovery', desc: 'Understand requirements, scope, and goals' },
-              { step: '02', title: 'Proposal', desc: 'Technical approach with clear milestones' },
-              { step: '03', title: 'Development', desc: 'Agile sprints with regular updates' },
-              { step: '04', title: 'Delivery', desc: 'Testing, deployment, and handover' },
+              { step: '01', title: 'Discovery', desc: 'A structured conversation about your system, hardware context, users, and goals — before we make any assumptions.' },
+              { step: '02', title: 'Architecture', desc: 'A written plan covering what we will build, how it connects, the tech stack, and milestones. You approve it before we write code.' },
+              { step: '03', title: 'Development', desc: 'Short sprints with working software you can review. Nothing is final until you have seen it.' },
+              { step: '04', title: 'Handover', desc: 'Source code, documentation, and a technical handover session. You own everything.' },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -176,16 +179,16 @@ const About = () => {
       <section className="section-padding bg-gradient-to-r from-primary to-accent">
         <div className="container-custom text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white mb-6">
-            Let&apos;s Work Together
+            Let&apos;s discuss your system
           </h2>
           <p className="text-base sm:text-lg text-slate-100 mb-8 max-w-2xl mx-auto">
-            Have a project in mind? We&apos;d love to discuss how we can help.
+            Tell us what you are building — the software, the hardware context, and where you are in the process. We will tell you honestly whether and how we can help.
           </p>
           <Link
             to="/contact"
             className="bg-white text-primary hover:bg-slate-100 font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 inline-block"
           >
-            Get in Touch
+            Start the Conversation
           </Link>
         </div>
       </section>

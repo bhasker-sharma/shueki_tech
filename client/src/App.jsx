@@ -1,5 +1,5 @@
 import { lazy, Suspense, Component } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -9,7 +9,7 @@ import WhatsAppButton from './components/WhatsAppButton'
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'))
 const Services = lazy(() => import('./pages/Services'))
-const ServiceDetail = lazy(() => import('./pages/ServiceDetail'))
+const ServicePage = lazy(() => import('./pages/ServicePage'))
 const About = lazy(() => import('./pages/About'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Projects = lazy(() => import('./pages/Projects'))
@@ -115,8 +115,10 @@ function App() {
 
               {/* Public routes - with navbar/footer */}
               <Route path="/" element={<Layout><Home /></Layout>} />
-              <Route path="/services" element={<Layout><Services /></Layout>} />
-              <Route path="/services/:serviceId" element={<Layout><ServiceDetail /></Layout>} />
+              <Route path="/what-we-build" element={<Layout><Services /></Layout>} />
+              <Route path="/what-we-build/:serviceId" element={<Layout><ServicePage /></Layout>} />
+              <Route path="/services" element={<Navigate to="/what-we-build" replace />} />
+              <Route path="/services/:serviceId" element={<Navigate to="/what-we-build" replace />} />
               <Route path="/projects" element={<Layout><Projects /></Layout>} />
               <Route path="/projects/:id" element={<Layout><ProjectDetail /></Layout>} />
               <Route path="/about" element={<Layout><About /></Layout>} />

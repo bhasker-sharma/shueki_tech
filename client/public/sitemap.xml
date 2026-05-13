@@ -4,69 +4,51 @@
   <!-- Core pages -->
   <url>
     <loc>https://shuekitech.com/</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://shuekitech.com/services</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://shuekitech.com/what-we-build</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://shuekitech.com/projects</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://shuekitech.com/about</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://shuekitech.com/contact</loc>
-    <lastmod>2026-04-23</lastmod>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Service detail pages -->
   <url>
-    <loc>https://shuekitech.com/services/web-development</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://shuekitech.com/what-we-build/desktop-applications</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://shuekitech.com/services/machine-integration</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://shuekitech.com/what-we-build/web-dashboards</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://shuekitech.com/services/ai-pipelines</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://shuekitech.com/services/pcb-designing</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://shuekitech.com/services/app-development</loc>
-    <lastmod>2026-04-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://shuekitech.com/services/rd-consultancy</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://shuekitech.com/what-we-build/edge-integration</loc>
+    <lastmod>2026-05-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

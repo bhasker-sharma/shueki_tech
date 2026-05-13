@@ -33,7 +33,7 @@ const SERVICE_OPTIONS = Object.entries(SERVICE_TYPE_LABELS)
 
 const EMPTY_FORM = {
   title: '', client: '', industry: '',
-  service_type: 'web-development', problem: '', result: '', tech: '',
+  service_type: 'web-dashboards', problem: '', result: '', tech: '',
   year: new Date().getFullYear(), featured: false,
   status: 'published', gradient: 'from-blue-500 to-cyan-500', sort_order: 0, link: '',
 }
@@ -191,7 +191,7 @@ const ProjectForm = ({ project, onClose, onSave }) => {
       title: project.title || '',
       client: project.client || '',
       industry: project.industry || '',
-      service_type: project.service_type || 'web-development',
+      service_type: project.service_type || 'web-dashboards',
       problem: project.problem || '',
       result: project.result || '',
       tech: Array.isArray(project.tech) ? project.tech.join(', ') : (project.tech || ''),

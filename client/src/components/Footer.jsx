@@ -41,14 +41,14 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* What We Build */}
           <div>
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-3 md:mb-4 text-sm md:text-base">Services</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-3 md:mb-4 text-sm md:text-base">What We Build</h3>
             <ul className="space-y-1.5 md:space-y-2">
               {SERVICES.map((service) => (
                 <li key={service.id}>
                   <Link
-                    to={`/services/${service.id}`}
+                    to="/what-we-build"
                     className="text-gray-500 dark:text-slate-400 hover:text-accent transition-colors text-xs md:text-sm"
                   >
                     {service.title}

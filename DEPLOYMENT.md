@@ -22,7 +22,7 @@ Browser (User)
      ▼
 shuekitech.com
      │
-     ├── / (homepage, /about, /services, /contact, /admin)
+     ├── / (homepage, /about, /what-we-build, /contact, /admin)
      │        └── Served by React (index.html) — Frontend
      │
      └── /api/* (form submissions, admin login, data)
@@ -233,6 +233,8 @@ client/dist/index.html                  →  public_html/index.html
 client/dist/assets/                     →  public_html/assets/
 client/dist/favicon.svg                 →  public_html/favicon.svg
 client/dist/robots.txt                  →  public_html/robots.txt
+client/dist/sitemap.xml                 →  public_html/sitemap.xml
+client/dist/googlebd2d1107ad3d8255.html →  public_html/googlebd2d1107ad3d8255.html
 
 server/public/index.php (2 lines       →  public_html/index.php
   modified for Hostinger paths)
@@ -243,6 +245,7 @@ server/app/                             →  laravel/app/
 server/bootstrap/                       →  laravel/bootstrap/
 server/config/                          →  laravel/config/
 server/database/                        →  laravel/database/
+server/resources/                       →  laravel/resources/
 server/routes/                          →  laravel/routes/
 server/storage/                         →  laravel/storage/
 server/artisan                          →  laravel/artisan
@@ -264,11 +267,13 @@ client/dist/            ← already uploaded above, don't upload the folder itse
 ```
 /home/u346088292/
 ├── public_html/
-│   ├── index.html          ← from client/dist/
-│   ├── index.php           ← from server/public/ (2 lines modified)
-│   ├── .htaccess           ← from client/public/
-│   ├── robots.txt          ← from client/dist/
-│   ├── favicon.svg         ← from client/dist/
+│   ├── index.html                      ← from client/dist/
+│   ├── index.php                       ← from server/public/ (2 lines modified)
+│   ├── .htaccess                       ← from client/public/
+│   ├── robots.txt                      ← from client/dist/
+│   ├── sitemap.xml                     ← from client/dist/
+│   ├── favicon.svg                     ← from client/dist/
+│   ├── googlebd2d1107ad3d8255.html     ← Google Search Console verification
 │   └── assets/
 │       ├── index-[hash].js
 │       └── index-[hash].css
@@ -283,6 +288,11 @@ client/dist/            ← already uploaded above, don't upload the folder itse
     ├── config/
     │   └── cors.php                      ← must have your domain in allowed_origins
     ├── database/
+    ├── resources/
+    │   └── views/
+    │       └── emails/
+    │           ├── enquiry-confirmation.blade.php  ← confirmation email to enquirer
+    │           └── enquiry-received.blade.php      ← notification email to admin
     ├── routes/
     │   └── api.php
     ├── storage/
@@ -320,16 +330,16 @@ Without this, Laravel cannot write logs or cache — leads to cryptic errors.
 
 **Step 7: Run migrations and create admin**
 ```bash
-# 4. Generate app encryption key (writes into your .env automatically)
-php artisan key:generate
-# Run database migrations
-php artisan migrate --force  
-# Create admin user
-php artisan db:seed --class=AdminUserSeeder 
-# Cache everything for performance
-php artisan config:cache 
+php artisan migrate --force
+php artisan config:clear
+php artisan db:seed --class=AdminUserSeeder
+php artisan config:cache
 php artisan route:cache
 ```
+
+> `config:clear` must run BEFORE the seeder. When config is cached, `env()` returns null
+> inside seeders — the admin would be created with a blank email and unusable password.
+> Clearing first lets the seeder read the real ADMIN_EMAIL and ADMIN_PASSWORD from .env.
 
 ---
 

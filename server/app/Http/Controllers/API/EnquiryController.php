@@ -18,7 +18,7 @@ class EnquiryController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:50',
             'company' => 'nullable|string|max:255',
-            'service_type' => 'required|in:web-development,machine-integration,ai-pipelines,pcb-designing,app-development,rd-consultancy,general',
+            'service_type' => 'required|in:desktop-applications,web-dashboards,edge-integration,general,web-development,machine-integration,ai-pipelines,pcb-designing,app-development,rd-consultancy',
             'message' => 'required|string|min:10',
         ]);
 
