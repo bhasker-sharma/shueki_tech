@@ -14,6 +14,9 @@ import {
   FolderKanban,
   MessageSquare,
   HelpCircle,
+  Users,
+  FileText,
+  Settings,
 } from 'lucide-react'
 import { getUser, logout } from '../utils/auth'
 import { adminAPI } from '../utils/api'
@@ -136,6 +139,48 @@ const AdminLayout = ({ children }) => {
             >
               <HelpCircle className="w-5 h-5" />
               <span className="font-medium">FAQs</span>
+            </Link>
+
+            {/* Customers */}
+            <Link
+              to="/admin/customers"
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                location.pathname.startsWith('/admin/customers')
+                  ? 'bg-primary text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              }`}
+            >
+              <Users className="w-5 h-5" />
+              <span className="font-medium">Customers</span>
+            </Link>
+
+            {/* Invoices */}
+            <Link
+              to="/admin/invoices"
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                location.pathname.startsWith('/admin/invoices')
+                  ? 'bg-primary text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              }`}
+            >
+              <FileText className="w-5 h-5" />
+              <span className="font-medium">Invoices</span>
+            </Link>
+
+            {/* Settings */}
+            <Link
+              to="/admin/settings"
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                location.pathname.startsWith('/admin/settings')
+                  ? 'bg-primary text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              }`}
+            >
+              <Settings className="w-5 h-5" />
+              <span className="font-medium">Settings</span>
             </Link>
 
             {/* Enquiries (collapsible) */}

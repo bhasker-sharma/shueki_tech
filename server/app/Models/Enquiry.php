@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Enquiry extends Model
 {
     protected $fillable = [
+        'customer_id',
         'full_name',
         'email',
         'phone',
@@ -16,6 +17,11 @@ class Enquiry extends Model
         'status',
         'ip_address',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 
     public function comments()
     {
