@@ -30,6 +30,7 @@ class InvoiceController extends Controller
     {
         $request->validate([
             'customer_id'         => 'required|exists:customers,id',
+            'payment_method_id'   => 'nullable|exists:payment_methods,id',
             'project_name'        => 'nullable|string|max:255',
             'status'              => 'nullable|in:draft,sent,paid',
             'issue_date'          => 'required|date',
@@ -48,30 +49,31 @@ class InvoiceController extends Controller
         );
 
         $invoice = Invoice::create([
-            'invoice_number' => $this->generateInvoiceNumber(),
-            'customer_id'    => $request->input('customer_id'),
-            'project_name'   => $request->input('project_name'),
-            'status'         => $request->input('status', 'draft'),
-            'issue_date'     => $request->input('issue_date'),
-            'due_date'       => $request->input('due_date'),
-            'notes'          => $request->input('notes'),
-            'subtotal'       => $subtotal,
-            'tax_percent'    => (float) $request->input('tax_percent', 0),
-            'tax_amount'     => $taxAmount,
-            'total'          => $total,
+            'invoice_number'    => $this->generateInvoiceNumber(),
+            'customer_id'       => $request->input('customer_id'),
+            'payment_method_id' => $request->input('payment_method_id') ?: null,
+            'project_name'      => $request->input('project_name'),
+            'status'            => $request->input('status', 'draft'),
+            'issue_date'        => $request->input('issue_date'),
+            'due_date'          => $request->input('due_date'),
+            'notes'             => $request->input('notes'),
+            'subtotal'          => $subtotal,
+            'tax_percent'       => (float) $request->input('tax_percent', 0),
+            'tax_amount'        => $taxAmount,
+            'total'             => $total,
         ]);
 
         $this->saveItems($invoice->id, $request->input('items'));
 
         return response()->json([
-            'invoice' => $invoice->load(['customer', 'items']),
+            'invoice' => $invoice->load(['customer', 'items', 'paymentMethod']),
         ], 201);
     }
 
     public function show(Invoice $invoice)
     {
         return response()->json([
-            'invoice' => $invoice->load(['customer', 'items']),
+            'invoice' => $invoice->load(['customer', 'items', 'paymentMethod']),
         ]);
     }
 
@@ -79,6 +81,7 @@ class InvoiceController extends Controller
     {
         $request->validate([
             'customer_id'         => 'required|exists:customers,id',
+            'payment_method_id'   => 'nullable|exists:payment_methods,id',
             'project_name'        => 'nullable|string|max:255',
             'status'              => 'nullable|in:draft,sent,paid',
             'issue_date'          => 'required|date',
@@ -95,23 +98,24 @@ class InvoiceController extends Controller
         [$subtotal, $taxAmount, $total] = $this->calcTotals($request->input('items'), $taxPercent);
 
         $invoice->update([
-            'customer_id'  => $request->input('customer_id'),
-            'project_name' => $request->input('project_name'),
-            'status'       => $request->input('status', $invoice->status),
-            'issue_date'   => $request->input('issue_date'),
-            'due_date'     => $request->input('due_date'),
-            'notes'        => $request->input('notes'),
-            'subtotal'     => $subtotal,
-            'tax_percent'  => $taxPercent,
-            'tax_amount'   => $taxAmount,
-            'total'        => $total,
+            'customer_id'       => $request->input('customer_id'),
+            'payment_method_id' => $request->input('payment_method_id') ?: null,
+            'project_name'      => $request->input('project_name'),
+            'status'            => $request->input('status', $invoice->status),
+            'issue_date'        => $request->input('issue_date'),
+            'due_date'          => $request->input('due_date'),
+            'notes'             => $request->input('notes'),
+            'subtotal'          => $subtotal,
+            'tax_percent'       => $taxPercent,
+            'tax_amount'        => $taxAmount,
+            'total'             => $total,
         ]);
 
         $invoice->items()->delete();
         $this->saveItems($invoice->id, $request->input('items'));
 
         return response()->json([
-            'invoice' => $invoice->fresh()->load(['customer', 'items']),
+            'invoice' => $invoice->fresh()->load(['customer', 'items', 'paymentMethod']),
         ]);
     }
 

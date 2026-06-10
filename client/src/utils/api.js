@@ -173,6 +173,27 @@ export const testimonialAPI = {
   delete: (id) => apiRequest(`/admin/testimonials/${id}`, { method: 'DELETE' }),
 }
 
+// Company Settings API
+export const settingsAPI = {
+  getCompany: () => apiRequest('/admin/settings/company'),
+
+  updateCompany: (data) =>
+    apiRequest('/admin/settings/company', { method: 'POST', body: JSON.stringify(data) }),
+}
+
+// Payment Methods API
+export const paymentMethodAPI = {
+  getAll: () => apiRequest('/admin/payment-methods'),
+
+  create: (data) =>
+    apiRequest('/admin/payment-methods', { method: 'POST', body: JSON.stringify(data) }),
+
+  update: (id, data) =>
+    apiRequest(`/admin/payment-methods/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  delete: (id) => apiRequest(`/admin/payment-methods/${id}`, { method: 'DELETE' }),
+}
+
 // Customer API
 export const customerAPI = {
   getAll: () => apiRequest('/admin/customers'),

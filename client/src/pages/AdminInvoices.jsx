@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import AdminLayout from '../components/AdminLayout'
-import { invoiceAPI, customerAPI } from '../utils/api'
+import { invoiceAPI, customerAPI, paymentMethodAPI, settingsAPI } from '../utils/api'
 import {
   Plus, Edit2, Trash2, X, CheckCircle, AlertCircle, Loader2,
   FileText, Download, Eye, Search, IndianRupee, PlusCircle, MinusCircle,
@@ -26,14 +26,24 @@ const today = () => new Date().toISOString().split('T')[0]
 
 // ─── Invoice Print / PDF ──────────────────────────────────────────────────────
 
-const printInvoice = (invoice) => {
-  const c = invoice.customer || {}
-  const items = invoice.items || []
+const printInvoice = (invoice, co = {}) => {
+  const c   = invoice.customer      || {}
+  const pm  = invoice.payment_method || null
+  const items = invoice.items       || []
 
-  const statusColor = invoice.status === 'paid'
-    ? '#065f46' : invoice.status === 'sent' ? '#1e40af' : '#374151'
-  const statusBg = invoice.status === 'paid'
-    ? '#d1fae5' : invoice.status === 'sent' ? '#dbeafe' : '#f3f4f6'
+  const statusColor = invoice.status === 'paid' ? '#065f46' : invoice.status === 'sent' ? '#1e40af' : '#374151'
+  const statusBg    = invoice.status === 'paid' ? '#d1fae5' : invoice.status === 'sent' ? '#dbeafe' : '#f3f4f6'
+
+  const coName    = co.company_name || 'Shueki Tech'
+  const coTagline = co.tagline      || ''
+  const coAddr    = co.address      || 'Opp. UCO Bank, Ground Floor, Hoshiarpur Road'
+  const coCity    = co.city         || 'Garhshankar, Punjab – 144527'
+  const coPhone   = co.phone        || '+91-84271-82071'
+  const coEmail   = co.email        || ''
+  const coWeb     = co.website      || ''
+  const coGST     = co.gst_number   || ''
+
+  const pmTypeLabel = pm ? (pm.type === 'bank' ? 'Bank Transfer' : pm.type === 'upi' ? 'UPI Payment' : 'Payment') : ''
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -43,10 +53,12 @@ const printInvoice = (invoice) => {
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; font-size: 13px; background: #fff; }
-  .page { max-width: 760px; margin: 0 auto; padding: 40px 40px; }
+  .page { max-width: 760px; margin: 0 auto; padding: 40px; }
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 3px solid #4f46e5; }
   .co-name { font-size: 26px; font-weight: 900; color: #4f46e5; letter-spacing: -0.5px; }
-  .co-details { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.7; }
+  .co-tagline { font-size: 11px; color: #888; margin-top: 1px; font-style: italic; }
+  .co-details { font-size: 11px; color: #666; margin-top: 6px; line-height: 1.8; }
+  .co-details a { color: #4f46e5; text-decoration: none; }
   .inv-right { text-align: right; }
   .inv-title { font-size: 30px; font-weight: 900; color: #4f46e5; letter-spacing: 1px; }
   .inv-num { font-size: 13px; color: #555; margin-top: 2px; }
@@ -72,22 +84,30 @@ const printInvoice = (invoice) => {
   .totals-box { width: 260px; }
   .t-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee; font-size: 13px; }
   .t-row.grand { border-top: 2px solid #4f46e5; border-bottom: none; padding-top: 8px; font-size: 15px; font-weight: 700; color: #4f46e5; }
-  .notes-box { background: #f8f8f8; border-radius: 6px; padding: 14px 16px; margin-bottom: 28px; }
-  .notes-box h4 { font-size: 10px; text-transform: uppercase; color: #999; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .notes-box p { font-size: 12px; color: #555; line-height: 1.6; white-space: pre-wrap; }
+  .two-col { display: flex; gap: 20px; margin-bottom: 28px; }
+  .two-col > div { flex: 1; }
+  .info-box { background: #f8f8f8; border-radius: 6px; padding: 14px 16px; }
+  .info-box h4 { font-size: 10px; text-transform: uppercase; color: #999; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .info-box p { font-size: 12px; color: #555; line-height: 1.6; white-space: pre-wrap; font-family: Arial, sans-serif; }
+  .pm-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #4f46e5; margin-bottom: 4px; }
+  .pm-label { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
   .footer { text-align: center; font-size: 11px; color: #bbb; padding-top: 16px; border-top: 1px solid #eee; }
   @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
 </style>
 </head>
 <body>
 <div class="page">
+
   <div class="header">
     <div>
-      <div class="co-name">Shueki Tech</div>
+      <div class="co-name">${coName}</div>
+      ${coTagline ? `<div class="co-tagline">${coTagline}</div>` : ''}
       <div class="co-details">
-        Opp. UCO Bank, Ground Floor, Hoshiarpur Road<br>
-        Garhshankar, Punjab – 144527<br>
-        +91-84271-82071
+        ${coAddr ? coAddr + '<br>' : ''}
+        ${coCity ? coCity + '<br>' : ''}
+        ${coPhone ? coPhone + (coEmail ? '  &nbsp;·&nbsp;  ' + coEmail : '') + '<br>' : ''}
+        ${coWeb ? `<a href="${coWeb}">${coWeb.replace(/^https?:\/\//, '')}</a>` : ''}
+        ${coGST ? '<br>GSTIN: ' + coGST : ''}
       </div>
     </div>
     <div class="inv-right">
@@ -103,10 +123,10 @@ const printInvoice = (invoice) => {
       <div class="bill-name">${c.name || ''}</div>
       <div class="bill-info">
         ${c.company ? c.company + '<br>' : ''}
-        ${c.email ? c.email + '<br>' : ''}
-        ${c.phone ? c.phone + '<br>' : ''}
+        ${c.email   ? c.email   + '<br>' : ''}
+        ${c.phone   ? c.phone   + '<br>' : ''}
         ${c.address ? c.address + '<br>' : ''}
-        ${c.city || ''}
+        ${c.city    || ''}
         ${c.gst_number ? '<br>GSTIN: ' + c.gst_number : ''}
       </div>
     </div>
@@ -151,27 +171,30 @@ const printInvoice = (invoice) => {
 
   <div class="totals">
     <div class="totals-box">
-      <div class="t-row">
-        <span>Subtotal</span><span>₹${fmt(invoice.subtotal)}</span>
-      </div>
-      ${invoice.tax_percent > 0 ? `
-      <div class="t-row">
-        <span>Tax (${invoice.tax_percent}%)</span><span>₹${fmt(invoice.tax_amount)}</span>
-      </div>` : ''}
-      <div class="t-row grand">
-        <span>Total</span><span>₹${fmt(invoice.total)}</span>
-      </div>
+      <div class="t-row"><span>Subtotal</span><span>₹${fmt(invoice.subtotal)}</span></div>
+      ${invoice.tax_percent > 0 ? `<div class="t-row"><span>Tax (${invoice.tax_percent}%)</span><span>₹${fmt(invoice.tax_amount)}</span></div>` : ''}
+      <div class="t-row grand"><span>Total</span><span>₹${fmt(invoice.total)}</span></div>
     </div>
   </div>
 
-  ${invoice.notes ? `
-  <div class="notes-box">
-    <h4>Notes</h4>
-    <p>${invoice.notes}</p>
+  ${(invoice.notes || pm) ? `
+  <div class="two-col">
+    ${pm ? `
+    <div class="info-box">
+      <h4>Payment Details</h4>
+      <div class="pm-type">${pmTypeLabel}</div>
+      <div class="pm-label">${pm.label}</div>
+      <p>${pm.details}</p>
+    </div>` : '<div></div>'}
+    ${invoice.notes ? `
+    <div class="info-box">
+      <h4>Notes</h4>
+      <p>${invoice.notes}</p>
+    </div>` : '<div></div>'}
   </div>` : ''}
 
   <div class="footer">
-    Thank you for your business! &nbsp;|&nbsp; Shueki Tech — Software for Connected Products and Operations
+    Thank you for your business! &nbsp;|&nbsp; ${coName}${coTagline ? ' — ' + coTagline : ''}
   </div>
 </div>
 <script>window.onload = function(){ window.print(); }<\/script>
@@ -187,19 +210,20 @@ const printInvoice = (invoice) => {
 
 const EMPTY_ITEM = { description: '', quantity: 1, unit_price: '' }
 
-const InvoiceForm = ({ invoice, customers, onClose, onSave }) => {
+const InvoiceForm = ({ invoice, customers, paymentMethods, onClose, onSave }) => {
   const initItems = invoice?.items?.length
     ? invoice.items.map((i) => ({ description: i.description, quantity: i.quantity, unit_price: i.unit_price }))
     : [{ ...EMPTY_ITEM }]
 
   const [form, setForm] = useState({
-    customer_id:  invoice?.customer_id  || '',
-    project_name: invoice?.project_name || '',
-    status:       invoice?.status       || 'draft',
-    issue_date:   invoice?.issue_date   || today(),
-    due_date:     invoice?.due_date     || '',
-    notes:        invoice?.notes        || '',
-    tax_percent:  invoice?.tax_percent  ?? 0,
+    customer_id:        invoice?.customer_id        || '',
+    payment_method_id:  invoice?.payment_method_id  || '',
+    project_name:       invoice?.project_name       || '',
+    status:             invoice?.status             || 'draft',
+    issue_date:         invoice?.issue_date         || today(),
+    due_date:           invoice?.due_date           || '',
+    notes:              invoice?.notes              || '',
+    tax_percent:        invoice?.tax_percent        ?? 0,
   })
   const [items, setItems]     = useState(initItems)
   const [saving, setSaving]   = useState(false)
@@ -279,6 +303,23 @@ const InvoiceForm = ({ invoice, customers, onClose, onSave }) => {
               <input name="project_name" value={form.project_name} onChange={set} placeholder="e.g. IoT Dashboard v2" style={INPUT_STYLE} />
             </div>
           </div>
+
+          {/* Payment Method */}
+          {paymentMethods.length > 0 && (
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Payment Method</label>
+              <select name="payment_method_id" value={form.payment_method_id} onChange={set} style={INPUT_STYLE}>
+                <option value="">— None / not specified —</option>
+                {paymentMethods.filter((m) => m.status === 'active').map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.label} ({m.type === 'bank' ? 'Bank' : m.type === 'upi' ? 'UPI' : 'Other'})
+                    {m.is_default ? ' ★' : ''}
+                  </option>
+                ))}
+              </select>
+              <p className="text-slate-500 text-xs mt-1">Printed on the invoice PDF so the client knows how to pay.</p>
+            </div>
+          )}
 
           {/* Status + Dates */}
           <div className="grid sm:grid-cols-3 gap-4">
@@ -424,7 +465,7 @@ const InvoiceForm = ({ invoice, customers, onClose, onSave }) => {
 
 // ─── Invoice View Modal ───────────────────────────────────────────────────────
 
-const InvoiceView = ({ invoiceId, onClose, onEdit }) => {
+const InvoiceView = ({ invoiceId, companySettings, onClose, onEdit }) => {
   const [invoice, setInvoice] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -452,7 +493,7 @@ const InvoiceView = ({ invoiceId, onClose, onEdit }) => {
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 bg-slate-700 hover:bg-slate-600 transition-colors">
                   <Edit2 size={12} /> Edit
                 </button>
-                <button onClick={() => printInvoice(invoice)}
+                <button onClick={() => printInvoice(invoice, companySettings)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-white bg-primary hover:bg-primary/90 transition-colors">
                   <Download size={12} /> Download PDF
                 </button>
@@ -541,11 +582,23 @@ const InvoiceView = ({ invoiceId, onClose, onEdit }) => {
               </div>
             </div>
 
-            {/* Notes */}
-            {invoice.notes && (
-              <div className="bg-slate-700/30 rounded-lg px-4 py-3">
-                <p className="text-slate-400 text-xs mb-1">Notes</p>
-                <p className="text-slate-300 text-sm whitespace-pre-wrap">{invoice.notes}</p>
+            {/* Payment method + Notes */}
+            {(invoice.payment_method || invoice.notes) && (
+              <div className="grid sm:grid-cols-2 gap-4">
+                {invoice.payment_method && (
+                  <div className="bg-slate-700/30 rounded-lg px-4 py-3">
+                    <p className="text-slate-400 text-xs mb-1">Payment Method</p>
+                    <p className="text-white text-sm font-medium">{invoice.payment_method.label}</p>
+                    <p className="text-slate-500 text-xs mb-1.5">{invoice.payment_method.type === 'bank' ? 'Bank Transfer' : invoice.payment_method.type === 'upi' ? 'UPI' : 'Other'}</p>
+                    <pre className="text-slate-300 text-xs whitespace-pre-wrap font-sans leading-relaxed">{invoice.payment_method.details}</pre>
+                  </div>
+                )}
+                {invoice.notes && (
+                  <div className="bg-slate-700/30 rounded-lg px-4 py-3">
+                    <p className="text-slate-400 text-xs mb-1">Notes</p>
+                    <p className="text-slate-300 text-sm whitespace-pre-wrap">{invoice.notes}</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -590,9 +643,11 @@ const STATUS_COLORS = {
 
 const AdminInvoices = () => {
   const [searchParams] = useSearchParams()
-  const [invoices, setInvoices]       = useState([])
-  const [customers, setCustomers]     = useState([])
-  const [loading, setLoading]         = useState(true)
+  const [invoices, setInvoices]         = useState([])
+  const [customers, setCustomers]       = useState([])
+  const [paymentMethods, setPayMethods] = useState([])
+  const [companySettings, setCoSettings] = useState({})
+  const [loading, setLoading]           = useState(true)
   const [search, setSearch]           = useState('')
   const [custFilter, setCustFilter]   = useState(searchParams.get('customer_id') || '')
   const [statusFilter, setStatusFilter] = useState('')
@@ -608,10 +663,14 @@ const AdminInvoices = () => {
     Promise.all([
       invoiceAPI.getAll(custFilter ? { customer_id: custFilter } : {}),
       customerAPI.getAll(),
+      paymentMethodAPI.getAll(),
+      settingsAPI.getCompany(),
     ])
-      .then(([invData, custData]) => {
+      .then(([invData, custData, pmData, coData]) => {
         setInvoices(invData.invoices || [])
         setCustomers(custData.customers || [])
+        setPayMethods(pmData.payment_methods || [])
+        setCoSettings(coData.settings || {})
       })
       .catch((err) => showToast('error', err.message))
       .finally(() => setLoading(false))
@@ -642,7 +701,7 @@ const AdminInvoices = () => {
     setDownloading(invId)
     try {
       const data = await invoiceAPI.get(invId)
-      printInvoice(data.invoice)
+      printInvoice(data.invoice, companySettings)
     } catch (err) {
       showToast('error', 'Failed to load invoice for download')
     } finally {
@@ -694,6 +753,7 @@ const AdminInvoices = () => {
         <InvoiceForm
           invoice={editItem}
           customers={customers}
+          paymentMethods={paymentMethods}
           onClose={() => { setShowForm(false); setEditItem(null) }}
           onSave={handleSave}
         />
@@ -701,6 +761,7 @@ const AdminInvoices = () => {
       {viewId && (
         <InvoiceView
           invoiceId={viewId}
+          companySettings={companySettings}
           onClose={() => setViewId(null)}
           onEdit={handleEdit}
         />

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     protected $fillable = [
-        'invoice_number', 'customer_id', 'project_name', 'status',
+        'invoice_number', 'customer_id', 'payment_method_id', 'project_name', 'status',
         'issue_date', 'due_date', 'notes',
         'subtotal', 'tax_percent', 'tax_amount', 'total',
     ];
@@ -29,5 +29,10 @@ class Invoice extends Model
     public function items()
     {
         return $this->hasMany(InvoiceItem::class)->orderBy('sort_order');
+    }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 }

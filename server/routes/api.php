@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\CompanySettingController;
+use App\Http\Controllers\Admin\PaymentMethodController;
 use Illuminate\Support\Facades\Route;
 
 // Public API Routes
@@ -68,5 +70,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
         Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update']);
         Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy']);
+
+        // Company settings
+        Route::get('/settings/company', [CompanySettingController::class, 'show']);
+        Route::post('/settings/company', [CompanySettingController::class, 'update']);
+
+        // Payment methods
+        Route::get('/payment-methods', [PaymentMethodController::class, 'index']);
+        Route::post('/payment-methods', [PaymentMethodController::class, 'store']);
+        Route::patch('/payment-methods/{paymentMethod}', [PaymentMethodController::class, 'update']);
+        Route::delete('/payment-methods/{paymentMethod}', [PaymentMethodController::class, 'destroy']);
     });
 });

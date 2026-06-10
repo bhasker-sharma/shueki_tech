@@ -25,6 +25,7 @@ const AdminTestimonials = lazy(() => import('./pages/AdminTestimonials'))
 const AdminFaqs = lazy(() => import('./pages/AdminFaqs'))
 const AdminCustomers = lazy(() => import('./pages/AdminCustomers'))
 const AdminInvoices = lazy(() => import('./pages/AdminInvoices'))
+const AdminSettings = lazy(() => import('./pages/AdminSettings'))
 
 // Loading component
 const PageLoader = () => (
@@ -119,6 +120,9 @@ function App() {
               } />
               <Route path="/admin/invoices" element={
                 <ProtectedRoute><AdminInvoices /></ProtectedRoute>
+              } />
+              <Route path="/admin/settings" element={
+                <ProtectedRoute><AdminSettings /></ProtectedRoute>
               } />
 
               {/* Public routes - with navbar/footer */}
