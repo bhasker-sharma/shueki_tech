@@ -173,6 +173,50 @@ export const testimonialAPI = {
   delete: (id) => apiRequest(`/admin/testimonials/${id}`, { method: 'DELETE' }),
 }
 
+// Customer API
+export const customerAPI = {
+  getAll: () => apiRequest('/admin/customers'),
+
+  get: (id) => apiRequest(`/admin/customers/${id}`),
+
+  create: (data) =>
+    apiRequest('/admin/customers', { method: 'POST', body: JSON.stringify(data) }),
+
+  update: (id, data) =>
+    apiRequest(`/admin/customers/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  delete: (id) => apiRequest(`/admin/customers/${id}`, { method: 'DELETE' }),
+
+  linkEnquiry: (customerId, enquiryId) =>
+    apiRequest(`/admin/customers/${customerId}/link-enquiry/${enquiryId}`, { method: 'POST' }),
+
+  unlinkEnquiry: (enquiryId) =>
+    apiRequest(`/admin/enquiries/${enquiryId}/unlink`, { method: 'POST' }),
+
+  getUnlinkedEnquiries: () => apiRequest('/admin/unlinked-enquiries'),
+}
+
+// Invoice API
+export const invoiceAPI = {
+  getAll: (filters = {}) => {
+    const params = new URLSearchParams()
+    if (filters.customer_id) params.set('customer_id', filters.customer_id)
+    if (filters.status) params.set('status', filters.status)
+    const qs = params.toString()
+    return apiRequest(`/admin/invoices${qs ? `?${qs}` : ''}`)
+  },
+
+  get: (id) => apiRequest(`/admin/invoices/${id}`),
+
+  create: (data) =>
+    apiRequest('/admin/invoices', { method: 'POST', body: JSON.stringify(data) }),
+
+  update: (id, data) =>
+    apiRequest(`/admin/invoices/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  delete: (id) => apiRequest(`/admin/invoices/${id}`, { method: 'DELETE' }),
+}
+
 // Project API
 export const projectAPI = {
   // Public — no auth needed

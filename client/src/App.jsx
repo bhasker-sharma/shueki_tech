@@ -23,6 +23,8 @@ const AdminEnquiries = lazy(() => import('./pages/AdminEnquiries'))
 const AdminProjects = lazy(() => import('./pages/AdminProjects'))
 const AdminTestimonials = lazy(() => import('./pages/AdminTestimonials'))
 const AdminFaqs = lazy(() => import('./pages/AdminFaqs'))
+const AdminCustomers = lazy(() => import('./pages/AdminCustomers'))
+const AdminInvoices = lazy(() => import('./pages/AdminInvoices'))
 
 // Loading component
 const PageLoader = () => (
@@ -111,6 +113,12 @@ function App() {
               } />
               <Route path="/admin/faqs" element={
                 <ProtectedRoute><AdminFaqs /></ProtectedRoute>
+              } />
+              <Route path="/admin/customers" element={
+                <ProtectedRoute><AdminCustomers /></ProtectedRoute>
+              } />
+              <Route path="/admin/invoices" element={
+                <ProtectedRoute><AdminInvoices /></ProtectedRoute>
               } />
 
               {/* Public routes - with navbar/footer */}

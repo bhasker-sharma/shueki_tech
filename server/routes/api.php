@@ -4,6 +4,8 @@ use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 // Public API Routes
@@ -49,5 +51,22 @@ Route::prefix('admin')->group(function () {
         Route::post('/testimonials', [TestimonialController::class, 'store']);
         Route::patch('/testimonials/{testimonial}', [TestimonialController::class, 'update']);
         Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy']);
+
+        // Customer management
+        Route::get('/customers', [CustomerController::class, 'index']);
+        Route::post('/customers', [CustomerController::class, 'store']);
+        Route::get('/customers/{customer}', [CustomerController::class, 'show']);
+        Route::patch('/customers/{customer}', [CustomerController::class, 'update']);
+        Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
+        Route::post('/customers/{customer}/link-enquiry/{enquiryId}', [CustomerController::class, 'linkEnquiry']);
+        Route::post('/enquiries/{enquiryId}/unlink', [CustomerController::class, 'unlinkEnquiry']);
+        Route::get('/unlinked-enquiries', [CustomerController::class, 'unlinkedEnquiries']);
+
+        // Invoice management
+        Route::get('/invoices', [InvoiceController::class, 'index']);
+        Route::post('/invoices', [InvoiceController::class, 'store']);
+        Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
+        Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update']);
+        Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy']);
     });
 });
