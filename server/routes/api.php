@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\CompanySettingController;
 use App\Http\Controllers\Admin\PaymentMethodController;
+use App\Http\Controllers\Admin\QuotationController;
 use Illuminate\Support\Facades\Route;
 
 // Public API Routes
@@ -70,6 +71,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
         Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update']);
         Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy']);
+
+        // Quotation management
+        Route::get('/quotations', [QuotationController::class, 'index']);
+        Route::post('/quotations', [QuotationController::class, 'store']);
+        Route::get('/quotations/{quotation}', [QuotationController::class, 'show']);
+        Route::patch('/quotations/{quotation}', [QuotationController::class, 'update']);
+        Route::delete('/quotations/{quotation}', [QuotationController::class, 'destroy']);
 
         // Company settings
         Route::get('/settings/company', [CompanySettingController::class, 'show']);

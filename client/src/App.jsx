@@ -1,3 +1,4 @@
+
 import { lazy, Suspense, Component } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
@@ -25,6 +26,7 @@ const AdminTestimonials = lazy(() => import('./pages/AdminTestimonials'))
 const AdminFaqs = lazy(() => import('./pages/AdminFaqs'))
 const AdminCustomers = lazy(() => import('./pages/AdminCustomers'))
 const AdminInvoices = lazy(() => import('./pages/AdminInvoices'))
+const AdminQuotations = lazy(() => import('./pages/AdminQuotations'))
 const AdminSettings = lazy(() => import('./pages/AdminSettings'))
 
 // Loading component
@@ -120,6 +122,9 @@ function App() {
               } />
               <Route path="/admin/invoices" element={
                 <ProtectedRoute><AdminInvoices /></ProtectedRoute>
+              } />
+              <Route path="/admin/quotations" element={
+                <ProtectedRoute><AdminQuotations /></ProtectedRoute>
               } />
               <Route path="/admin/settings" element={
                 <ProtectedRoute><AdminSettings /></ProtectedRoute>

@@ -16,6 +16,7 @@ import {
   HelpCircle,
   Users,
   FileText,
+  ClipboardList,
   Settings,
 } from 'lucide-react'
 import { getUser, logout } from '../utils/auth'
@@ -167,6 +168,20 @@ const AdminLayout = ({ children }) => {
             >
               <FileText className="w-5 h-5" />
               <span className="font-medium">Invoices</span>
+            </Link>
+
+            {/* Quotations */}
+            <Link
+              to="/admin/quotations"
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                location.pathname.startsWith('/admin/quotations')
+                  ? 'bg-primary text-white'
+                  : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+              }`}
+            >
+              <ClipboardList className="w-5 h-5" />
+              <span className="font-medium">Quotations</span>
             </Link>
 
             {/* Settings */}
