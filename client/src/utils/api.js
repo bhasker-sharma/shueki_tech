@@ -238,6 +238,27 @@ export const invoiceAPI = {
   delete: (id) => apiRequest(`/admin/invoices/${id}`, { method: 'DELETE' }),
 }
 
+// Quotation API  (re-exports paymentMethodAPI for convenience inside the page)
+export const quotationAPI = {
+  getAll: (filters = {}) => {
+    const params = new URLSearchParams()
+    if (filters.customer_id) params.set('customer_id', filters.customer_id)
+    if (filters.status) params.set('status', filters.status)
+    const qs = params.toString()
+    return apiRequest(`/admin/quotations${qs ? `?${qs}` : ''}`)
+  },
+
+  get: (id) => apiRequest(`/admin/quotations/${id}`),
+
+  create: (data) =>
+    apiRequest('/admin/quotations', { method: 'POST', body: JSON.stringify(data) }),
+
+  update: (id, data) =>
+    apiRequest(`/admin/quotations/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  delete: (id) => apiRequest(`/admin/quotations/${id}`, { method: 'DELETE' }),
+}
+
 // Project API
 export const projectAPI = {
   // Public — no auth needed
